@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrowBot-Dashboard</title>
+    <link rel="shortcut icon" href="https://files.catbox.moe/emy3s4.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./lib/css/dark-mode.css">
+   <style>
+        :root {
+            --secondary-color: #0056b3;
+            --text-color: #333;
+            --background-color: #f0f0f0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            overflow-y: auto;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            line-height: 1.6;
+            padding-top: 60px;
+            flex: 1;
+        }
+
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 50px;
+                font-size: 14px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            body {
+                padding-top: 60px;
+                font-size: 16px;
+            }
+        }
+
+        .menu-icon {
+            font-size: 30px;
+            background-color: transparent;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            z-index: 1100;
+        }
+
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            background-color: #fff;
+            height: 100%;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            transition: left 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            padding-top: 60px;
+            z-index: 1200;
+        }
+
+        .close-menu {
+            background: transparent;
+            color: #333;
+            font-size: 30px;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1300;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a i {
+            margin-right: 10px;
+        }
+
+        .navbar a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .menu-active .navbar {
+            left: 0;
+        }
+
+        .menu-active .menu-icon {
+            display: none;
+        }
+
+        .section {
+            padding: 20px;
+            display: none;
+            flex: 1;
+            border-radius: 10px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .logo-container {
+            margin: 30px auto;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background-color: #007BFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            border: 4px solid #0056b3;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+            max-height: 70%;
+            overflow-y: auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .button-wrapper {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .button-wrapper img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 3px solid #0056b3;
+        }
+
+        button.channel {
+            padding: 15px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: 3px solid #0056b3;
+            border-radius: 15px;
+            text-align: center;
+            width: 220px;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            button.channel {
+                width: 220px;
+                font-size: 14px;
+                padding: 12px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            button.channel {
+                width: 180px;
+                font-size: 12px;
+                padding: 10px 15px;
+            }
+        }
+
+
+        button.channel:hover {
+            background-color: #0056b3;
+            color: #f4f4f9;
+            transform: translateY(-4px);
+        }
+
+        button.channel:active {
+            transform: translateY(3px);
+        }
+
+        .top-bar {
+            background-color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 0 20px;
+        }
+
+        footer {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        footer span {
+            font-weight: bold;
+        }
+
+        .product {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button:focus,
+        a:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 4px;
+        }
+
+
+        .product img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+
+        .product-info {
+            flex-grow: 1;
+        }
+
+        .product-info h3 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .product-info p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .product-info .button-channel {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-info .button-channel:hover {
+            background-color: #0056b3;
+        }
+
+        .staff-member {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .staff-card {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        .staff-member img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin-right: 20px;
+            border: 3px solid #0056b3;
+        }
+
+        .staff-info h3 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .staff-info p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .staff-member img {
+                width: 75px;
+                height: 75px;
+            }
+
+            .staff-info p {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .staff-member img {
+                width: 70px;
+                height: 70px;
+            }
+
+            .staff-info p {
+                font-size: 10px;
+            }
+        }
+
+        #about h2 {
+            font-size: 28px;
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .terms-container p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .terms-content h3 {
+            font-size: 20px;
+            margin-top: 20px;
+            color: #007BFF;
+            border-left: 4px solid #0056b3;
+            padding-left: 10px;
+            text-transform: capitalize;
+        }
+
+        .terms-content p {
+            font-size: 14px;
+            color: #555;
+            margin: 10px 0;
+            line-height: 1.5;
+            text-align: justify;
+        }
+
+        .terms-content a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .terms-content a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            #about {
+                padding: 30px 15px;
+            }
+
+            #about h2 {
+                font-size: 24px;
+            }
+
+            .terms-container p,
+            .terms-content p {
+                font-size: 14px;
+            }
+
+            .terms-content h3 {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #about {
+                padding: 20px 10px;
+            }
+
+            #about h2 {
+                font-size: 20px;
+            }
+
+            .terms-container p,
+            .terms-content p {
+                font-size: 12px;
+            }
+
+            .terms-content h3 {
+                font-size: 16px;
+            }
+        }
+
+        #settings h2 {
+            font-size: 28px;
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .settings-container {
+            margin-top: 20px;
+        }
+
+        .settings-container p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            background-color: #fff;
+        }
+
+        .setting-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .setting-item label {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .setting-item input[type="checkbox"],
+        .setting-item select {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .save-settings {
+            width: 100%;
+            padding: 12px;
+            background-color: #0056b3;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .save-settings:hover {
+            background-color: #007BFF;
+        }
+
+        @media (max-width: 1024px) {
+            #settings {
+                padding: 35px 20px;
+            }
+
+            #settings h2 {
+                font-size: 26px;
+            }
+
+            .settings-container p {
+                font-size: 15px;
+            }
+
+            .setting-item label {
+                font-size: 15px;
+            }
+
+            .save-settings {
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #settings {
+                padding: 30px 15px;
+            }
+
+            #settings h2 {
+                font-size: 24px;
+            }
+
+            .settings-container p {
+                font-size: 14px;
+            }
+
+            .setting-item label {
+                font-size: 14px;
+            }
+
+            .save-settings {
+                font-size: 14px;
+            }
+
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .setting-item label {
+                margin-bottom: 8px;
+            }
+
+            .setting-item input[type="checkbox"],
+            .setting-item select {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #settings {
+                padding: 20px 10px;
+            }
+
+            #settings h2 {
+                font-size: 22px;
+            }
+
+            .settings-container p {
+                font-size: 12px;
+            }
+
+            .setting-item label {
+                font-size: 12px;
+            }
+
+            .save-settings {
+                font-size: 12px;
+            }
+
+            .setting-item {
+                padding: 10px;
+            }
+
+            .setting-item label {
+                margin-bottom: 5px;
+            }
+
+            .setting-item input[type="checkbox"],
+            .setting-item select {
+                margin-top: 3px;
+            }
+        }
+
+        /* Estilo para el modo oscuro */
+        body.dark-mode {
+            background-color: #121212;
+            color: #f5f5f5;
+        }
+
+        body.dark-mode .section {
+            background-color: #121212;
+        }
+
+        body.dark-mode .navbar {
+            background-color: #121212;
+        }
+
+        body.dark-mode .close-menu {
+            color: #ffffff;
+        }
+
+        body.dark-mode a {
+            color: #ffffff;
+        }
+
+        body.dark-mode a:hover {
+            color: #121212;
+        }
+
+        body.dark-mode .terms-content p {
+            color: #f5f5f5;
+        }
+
+        body.dark-mode .terms-content a:hover {
+            color: #f5f5f5;
+        }
+
+        body.dark-mode .top-bar {
+            background-color: #121212;
+            color: #f5f5f5;
+        }
+
+
+        body.dark-mode .menu-icon {
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .save-settings {
+            color: #fff;
+        }
+
+        body.dark-mode .settings-container p {
+            color: #fff;
+        }
+
+        body.dark-mode .settings-container  {
+            color: #fff;
+        }
+
+        body.dark-mode .settings-container  {
+            color: #fff;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <div class="top-bar">
+        <button class="menu-icon" onclick="toggleMenu()">☰</button>
+    </div>
+
+    <div class="navbar" id="navbar">
+        <button class="close-menu" onclick="toggleMenu()">✖</button>
+        <a href="javascript:void(0);" onclick="showSection('home')"><i class="fas fa-home"></i> Home</a>
+        <a href="javascript:void(0);" onclick="showSection('tienda')"><i class="fas fa-store"></i> Tienda</a>
+        <a href="javascript:void(0);" onclick="showSection('staff')"><i class="fas fa-users"></i> Staff</a>
+        <a href="javascript:void(0);" onclick="showSection('settings')"><i class="fas fa-cog"></i> Settings</a>
+        <a href="javascript:void(0);" onclick="showSection('about')"><i class="fas fa-info-circle"></i> About</a>
+    </div>
+
+    <div id="home" class="section active">
+        <div class="logo-container">
+            <img src="https://files.catbox.moe/emy3s4.jpg" alt="CrowBot Logo">
+        </div>
+        <div class="buttons-container">
+            <div class="button-wrapper">
+                <img src="https://files.catbox.moe/yyb6yl.jpg" alt="WhatsApp">
+                <a href="https://chat.whatsapp.com/HwcDg23QEwhIXc73wL0tKj">
+                    <button class="channel">𝕮𝖗𝖔𝖜𝕭𝖔𝖙 - 𝕲𝖊𝖓𝖊𝖗𝖆𝖑 </button>
+                </a>
+            </div>
+            <div class="button-wrapper">
+                <img src="https://files.catbox.moe/emy3s4.jpg" alt="WhatsApp">
+                <a href="https://chat.whatsapp.com/HLGeKX8P5Cs3EazJl3SCRM">
+                    <button class="channel"> 𝑪𝒓𝒐𝒘𝑩𝒐𝒕 - 𝑺.𝑪.𝑨 </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="tienda" class="section">
+        <h2>Tienda</h2>
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Producto 1">
+            <div class="product-info">
+                <h3>Producto 1</h3>
+                <p>Descripción del producto 1. Este es un artículo muy popular.</p>
+                <button class="button-channel">Comprar ahora</button>
+            </div>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Producto 2">
+            <div class="product-info">
+                <h3>Producto 2</h3>
+                <p>Descripción del producto 2. ¡No te lo puedes perder!</p>
+                <button class="button-channel">Comprar ahora</button>
+            </div>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Producto 3">
+            <div class="product-info">
+                <h3>Producto 3</h3>
+                <p>Descripción del producto 3. ¡Haz tu compra ya!</p>
+                <button class="button-channel">Comprar ahora</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="staff" class="section">
+        <div class="staff-member">
+            <div class="staff-card">
+                <img src="https://avatars.githubusercontent.com/u/126108471?v=4" alt="Miembro del staff 1">
+                <div class="staff-info">
+                    <h3>DarkCore</h3>
+                    <p>"Soy programador profesional y creador de CrowBot-Dashboard, especializado en soluciones
+                        personalizadas que optimizan la experiencia y funcionalidad de tus proyectos digitales."</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="staff-member">
+            <div class="staff-card">
+                <img src="https://avatars.githubusercontent.com/u/175991547?v=4" alt="Miembro del staff 2">
+                <div class="staff-info">
+                    <h3>WillZek</h3>
+                    <p>"Soy creador De CrowBot, también hago logos únicos y atractivos, especializado en reflejar la esencia de cada marca.
+                        También tengo experiencia en programación para ofrecer soluciones completas."</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="staff-member">
+            <div class="staff-card">
+                <img src="https://avatars.githubusercontent.com/u/158788969?v=4" alt="Miembro del staff 3">
+                <div class="staff-info">
+                    <h3>Prakharper</h3>
+                    <p>"Ofrezco creación de logos personalizados y diseño de estéticas para bots, garantizando una
+                        apariencia única, atractiva y funcional. ¡Transformemos tus ideas en algo espectacular!".</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div id="settings" class="section">
+        <h2>Settings</h2>
+        <div class="settings-container">
+            <p>Manage your preferences and customize your experience:</p>
+
+            <div class="setting-item">
+                <label for="dark-mode">
+                    <span>Dark Mode</span>
+                    <input type="checkbox" id="dark-mode">
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <label for="notifications">
+                    <span>Enable Notifications</span>
+                    <input type="checkbox" id="notifications">
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <label for="language">
+                    <span>Language</span>
+                    <select id="language">
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                    </select>
+                </label>
+            </div>
+
+            <button class="save-settings">Save Changes</button>
+        </div>
+    </div>
+
+
+
+    <div id="about" class="section">
+        <div class="terms-container">
+            <h2>Términos y Condiciones</h2>
+            <p>Bienvenido a CrowBot-Dashboard. Al acceder y usar este sitio web, aceptas los siguientes términos y
+                condiciones:</p>
+
+            <div class="terms-content">
+                <h3>1. Aceptación de los Términos</h3>
+                <p>Al utilizar este sitio web, aceptas cumplir con todos los términos establecidos en este acuerdo.</p>
+
+                <h3>2. Uso del Servicio</h3>
+                <p>El servicio proporcionado a través de CrowBot-Dashboard es para uso personal y no comercial.</p>
+
+                <h3>3. Propiedad Intelectual</h3>
+                <p>Todos los derechos de propiedad intelectual sobre los contenidos de este sitio son propiedad de sus
+                    respectivos autores.</p>
+
+                <h3>4. Modificaciones de los Términos</h3>
+                <p>Nos reservamos el derecho de modificar estos términos en cualquier momento, por lo que te
+                    recomendamos revisarlos periódicamente.</p>
+
+                <h3>5. Limitación de Responsabilidad</h3>
+                <p>El uso de este sitio es bajo tu propio riesgo. No nos hacemos responsables de ningún daño directo o
+                    indirecto derivado del uso del servicio.</p>
+
+                <h3>6. Política de Privacidad</h3>
+                <p>Tu privacidad es importante para nosotros. Consulta nuestra <a href="https://github.com/WillZek/CrowBot-ST/blob/main/TyC_De_CrowBot_Web.md">Política de
+                    Privacidad</a> para más detalles.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <span>CrowBot</span> | Todos los derechos Reservados
+    </footer>
+    
+    <script type="module" src="./lib/javascript/dark-mode.js"></script>
+    <script type="module" src="./lib/javascript/menu.js"></script>
+    <script type="module" src="./lib/javascript/"></script>
+
+    <script>
+        function toggleMenu() {
+            document.body.classList.toggle('menu-active');
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section) => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            toggleMenu();
+        }
+    </script>
+    <script>
+        const darkModeToggle = document.getElementById('dark-mode');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const darkModeEnabled = localStorage.getItem('darkMode') === 'true';
+            if (darkModeEnabled) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+            }
+        });
+
+        darkModeToggle.addEventListener('change', () => {
+            if (darkModeToggle.checked) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('darkMode', 'true');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', 'false');
+            }
+        });
+    </script>
+    <script>
+        const languageSelect = document.getElementById('language');
+
+        function changeLanguage(event) {
+            const selectedLanguage = event.target.value;
+
+            // Aquí podrías usar un objeto de traducciones o cambiar dinámicamente el contenido de la página.
+            // A modo de ejemplo, solo cambiaremos el idioma del texto que hay en la página.
+
+            if (selectedLanguage === 'en') {
+                document.body.setAttribute('lang', 'en');
+                alert('Idioma cambiado a Inglés');
+            } else if (selectedLanguage === 'es') {
+                document.body.setAttribute('lang', 'es');
+                alert('Idioma cambiado a Español');
+            } else if (selectedLanguage === 'fr') {
+                document.body.setAttribute('lang', 'fr');
+                alert('Idioma cambiado a Francés');
+            }
+        }
+
+        languageSelect.addEventListener('change', changeLanguage);
+    </script>
+</body>
+
+</html>
