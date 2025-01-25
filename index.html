@@ -1,892 +1,356 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Izumi-Dashboard</title>
-    <link rel="shortcut icon" href="https://files.catbox.moe/bm1dpq.jpeg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="./lib/css/dark-mode.css">
-   <style>
-        :root {
-            --secondary-color: #0056b3;
-            --text-color: #333;
-            --background-color: #f0f0f0;
-        }
-
+    <title>Comandos de Neko's Club</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
-        html,
         body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow-x: hidden;
+            font-family: 'Arial', sans-serif;
+            background-color: #fff;
+            color: white;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        body {
-            overflow-y: auto;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            line-height: 1.6;
-            padding-top: 60px;
-            flex: 1;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+            height: 60px;
+            transition: background-color 0.3s;
         }
 
-
-        @media (max-width: 768px) {
-            body {
-                padding-top: 50px;
-                font-size: 14px;
-            }
-        }
-
-        @media (min-width: 769px) {
-            body {
-                padding-top: 60px;
-                font-size: 16px;
-            }
+        .menu-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
         }
 
         .menu-icon {
-            font-size: 30px;
-            background-color: transparent;
-            border: none;
-            color: #333;
+            font-size: 24px;
+            color: white;
             cursor: pointer;
-            padding: 10px;
-            position: absolute;
-            bottom: 0;
-            left: 20px;
-            z-index: 1100;
         }
 
+        .profile {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
 
-        .navbar {
+        .profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .active-indicator {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background-color: #34c759;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .dark-mode-icon {
+            font-size: 24px;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+
+        .title {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .dropdown {
+            width: 60%;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .dropdown select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background-color: #f0f0f0;
+            color: black;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            background: #fff;
+            color: black;
+            padding: 10px;
+            box-shadow: 0px -3px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .heart {
+            color: red;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .sidebar {
             position: fixed;
             top: 0;
             left: -250px;
             width: 250px;
-            background-color: #fff;
             height: 100%;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-            transition: left 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-            padding-top: 60px;
-            z-index: 1200;
+            background: #ffffff; /* Blanco */
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            z-index: 1000;
         }
 
-        .close-menu {
-            background: transparent;
-            color: #333;
-            font-size: 30px;
-            border: none;
-            cursor: pointer;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 1300;
-        }
-
-        .navbar a {
-            text-decoration: none;
-            color: #333;
-            font-size: 18px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .navbar a i {
-            margin-right: 10px;
-        }
-
-        .navbar a:hover {
-            background-color: #f1f1f1;
-        }
-
-        .menu-active .navbar {
+        .sidebar.open {
             left: 0;
         }
 
-        .menu-active .menu-icon {
-            display: none;
-        }
-
-        .section {
+        .sidebar-header {
             padding: 20px;
-            display: none;
-            flex: 1;
-            border-radius: 10px;
-            text-align: center;
-            background-color: #fff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        .logo-container {
-            margin: 30px auto;
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            background-color: #007BFF;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            border: 4px solid #0056b3;
-        }
-
-        .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .buttons-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 30px;
-            max-height: 70%;
-            overflow-y: auto;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .button-wrapper {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+            color: black;
+            height: 75px;
             display: flex;
             align-items: center;
-            margin: 15px 0;
-            flex-wrap: wrap;
-            justify-content: center;
+            justify-content: space-between;
         }
 
-        .button-wrapper img {
+        .sidebar-header img {
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            margin-right: 15px;
-            border: 3px solid #0056b3;
         }
 
-        button.channel {
-            padding: 15px 25px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #007BFF;
-            color: white;
-            border: 3px solid #0056b3;
-            border-radius: 15px;
-            text-align: center;
-            width: 220px;
-            text-transform: uppercase;
-            font-weight: 600;
-            transition: all 0.3s ease;
+        .sidebar-header h3 {
+            font-size: 18px;
             margin-bottom: 10px;
-        }
-
-        @media (max-width: 768px) {
-            button.channel {
-                width: 220px;
-                font-size: 14px;
-                padding: 12px 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            button.channel {
-                width: 180px;
-                font-size: 12px;
-                padding: 10px 15px;
-            }
-        }
-
-
-        button.channel:hover {
-            background-color: #0056b3;
-            color: #f4f4f9;
-            transform: translateY(-4px);
-        }
-
-        button.channel:active {
-            transform: translateY(3px);
-        }
-
-        .top-bar {
-            background-color: #fff;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            padding: 0 20px;
-        }
-
-        footer {
-            background-color: #007BFF;
             color: white;
-            text-align: center;
-            padding: 10px 0;
-            width: 100%;
-            margin-top: auto;
-            flex-shrink: 0;
         }
 
-        footer span {
-            font-weight: bold;
-        }
-
-        .product {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        button:focus,
-        a:focus {
-            outline: 2px solid var(--primary-color);
-            outline-offset: 4px;
-        }
-
-
-        .product img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-right: 20px;
-        }
-
-        .product-info {
-            flex-grow: 1;
-        }
-
-        .product-info h3 {
-            font-size: 18px;
-            color: #333;
-        }
-
-        .product-info p {
-            font-size: 14px;
-            color: #555;
-        }
-
-        .product-info .button-channel {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 20px;
+        .close-sidebar {
             cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .product-info .button-channel:hover {
-            background-color: #0056b3;
-        }
-
-        .staff-member {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .staff-card {
-            display: flex;
-            align-items: center;
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            margin: auto;
-        }
-
-        .staff-member img {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            margin-right: 20px;
-            border: 3px solid #0056b3;
-        }
-
-        .staff-info h3 {
             font-size: 18px;
-            color: #333;
+            color: white;
         }
 
-        .staff-info p {
-            font-size: 14px;
-            color: #555;
+        .sidebar ul {
+            list-style: none;
+            padding: 20px;
+            background-color: white;
         }
 
-        @media (max-width: 768px) {
-            .staff-member img {
-                width: 75px;
-                height: 75px;
-            }
-
-            .staff-info p {
-                font-size: 12px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .staff-member img {
-                width: 70px;
-                height: 70px;
-            }
-
-            .staff-info p {
-                font-size: 10px;
-            }
-        }
-
-        #about h2 {
-            font-size: 28px;
-            color: #0056b3;
-            text-align: center;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        .terms-container p {
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            text-align: justify;
-        }
-
-        .terms-content h3 {
-            font-size: 20px;
-            margin-top: 20px;
-            color: #007BFF;
-            border-left: 4px solid #0056b3;
-            padding-left: 10px;
-            text-transform: capitalize;
-        }
-
-        .terms-content p {
-            font-size: 14px;
-            color: #555;
-            margin: 10px 0;
-            line-height: 1.5;
-            text-align: justify;
-        }
-
-        .terms-content a {
-            color: #007BFF;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        .terms-content a:hover {
-            color: #0056b3;
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            #about {
-                padding: 30px 15px;
-            }
-
-            #about h2 {
-                font-size: 24px;
-            }
-
-            .terms-container p,
-            .terms-content p {
-                font-size: 14px;
-            }
-
-            .terms-content h3 {
-                font-size: 18px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #about {
-                padding: 20px 10px;
-            }
-
-            #about h2 {
-                font-size: 20px;
-            }
-
-            .terms-container p,
-            .terms-content p {
-                font-size: 12px;
-            }
-
-            .terms-content h3 {
-                font-size: 16px;
-            }
-        }
-
-        #settings h2 {
-            font-size: 28px;
-            color: #0056b3;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .settings-container {
-            margin-top: 20px;
-        }
-
-        .settings-container p {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        .setting-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .sidebar ul li {
             margin-bottom: 15px;
-            padding: 12px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-            background-color: #fff;
         }
 
-        .setting-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .setting-item label {
+        .sidebar ul li a {
+            color: black;
+            text-decoration: none;
+            font-size: 16px;
             display: flex;
-            justify-content: space-between;
-            width: 100%;
-            font-size: 16px;
-            color: #333;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.3s ease;
         }
 
-        .setting-item input[type="checkbox"],
-        .setting-item select {
-            margin-left: 10px;
-            cursor: pointer;
+        .sidebar ul li a i {
+            margin-right: 10px;
         }
 
-        .save-settings {
-            width: 100%;
-            padding: 12px;
-            background-color: #0056b3;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
+        .sidebar ul li a:hover {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+            color: white;
         }
 
-        .save-settings:hover {
-            background-color: #007BFF;
+        /* Estilos para el modo oscuro */
+        .dark-mode body {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+            color: white;
         }
 
-        @media (max-width: 1024px) {
-            #settings {
-                padding: 35px 20px;
-            }
-
-            #settings h2 {
-                font-size: 26px;
-            }
-
-            .settings-container p {
-                font-size: 15px;
-            }
-
-            .setting-item label {
-                font-size: 15px;
-            }
-
-            .save-settings {
-                font-size: 15px;
-            }
+        .dark-mode .header {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
         }
 
-        @media (max-width: 768px) {
-            #settings {
-                padding: 30px 15px;
-            }
-
-            #settings h2 {
-                font-size: 24px;
-            }
-
-            .settings-container p {
-                font-size: 14px;
-            }
-
-            .setting-item label {
-                font-size: 14px;
-            }
-
-            .save-settings {
-                font-size: 14px;
-            }
-
-            .setting-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .setting-item label {
-                margin-bottom: 8px;
-            }
-
-            .setting-item input[type="checkbox"],
-            .setting-item select {
-                margin-left: 0;
-                margin-top: 5px;
-            }
+        .dark-mode footer {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+            color: white;
         }
 
-        @media (max-width: 480px) {
-            #settings {
-                padding: 20px 10px;
-            }
-
-            #settings h2 {
-                font-size: 22px;
-            }
-
-            .settings-container p {
-                font-size: 12px;
-            }
-
-            .setting-item label {
-                font-size: 12px;
-            }
-
-            .save-settings {
-                font-size: 12px;
-            }
-
-            .setting-item {
-                padding: 10px;
-            }
-
-            .setting-item label {
-                margin-bottom: 5px;
-            }
-
-            .setting-item input[type="checkbox"],
-            .setting-item select {
-                margin-top: 3px;
-            }
+        .dark-mode .dropdown select {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+            color: white;
         }
 
-        /* Estilo para el modo oscuro */
-        body.dark-mode {
-            background-color: #121212;
-            color: #f5f5f5;
+        .dark-mode .sidebar {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+            color: white;
         }
 
-        body.dark-mode .section {
-            background-color: #121212;
+        .dark-mode .sidebar ul li a {
+            color: white;
+            background: linear-gradient(90deg, #c964de, #5a4fff);
         }
 
-        body.dark-mode .navbar {
-            background-color: #121212;
+        .dark-mode .sidebar ul {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
         }
 
-        body.dark-mode .close-menu {
-            color: #ffffff;
+        .dark-mode .sidebar-header {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+            color: white;
         }
 
-        body.dark-mode a {
-            color: #ffffff;
+        .dark-mode .sidebar ul li a:hover {
+           
+            color: white;
         }
 
-        body.dark-mode a:hover {
-            color: #121212;
+        .dark-mode .sidebar-header h3 {
+            color: white;
         }
 
-        body.dark-mode .terms-content p {
-            color: #f5f5f5;
+        .dark-mode .sidebar ul li a i {
+            color: white;
+        }
+        .dark-mode .menu-icon{
+            color: white;
+        }
+        .dark-mode .dark-mode-icon{
+            color: white;
         }
 
-        body.dark-mode .terms-content a:hover {
-            color: #f5f5f5;
+        .dark-mode .close-sidebar{
+            color: white;
         }
-
-        body.dark-mode .top-bar {
-            background-color: #121212;
-            color: #f5f5f5;
-        }
-
-
-        body.dark-mode .menu-icon {
-            color: #f0f0f0;
-        }
-
-        body.dark-mode .save-settings {
-            color: #fff;
-        }
-
-        body.dark-mode .settings-container p {
-            color: #fff;
-        }
-
-        body.dark-mode .settings-container  {
-            color: #fff;
-        }
-
-        body.dark-mode .settings-container  {
-            color: #fff;
-        }
-
+        
     </style>
-
 </head>
 
 <body>
-    <div class="top-bar">
-        <button class="menu-icon" onclick="toggleMenu()">☰</button>
-    </div>
-
-    <div class="navbar" id="navbar">
-        <button class="close-menu" onclick="toggleMenu()">✖</button>
-        <a href="javascript:void(0);" onclick="showSection('home')"><i class="fas fa-home"></i> Dash</a>
-        <a href="javascript:void(0);" onclick="showSection('tienda')"><i class="fas fa-shopping-cart"></i> Tienda</a>
-        <a href="javascript:void(0);" onclick="showSection('staff')"><i class="fas fa-users"></i> Staff</a>
-        <a href="javascript:void(0);" onclick="showSection('settings')"><i class="fas fa-cog"></i> Ajustes</a>
-        <a href="javascript:void(0);" onclick="showSection('about')"><i class="fas fa-info-circle"></i> About</a>
-    </div>
-
-    <div id="home" class="section active">
-        <div class="logo-container">
-            <img src="https://files.catbox.moe/e8tjnz.png" alt="Izumi Logo">
+    <div class="header">
+        <div class="menu-container">
+            <i class="fas fa-bars menu-icon" id="menuToggle"></i>
+            <i class="fas fa-moon dark-mode-icon" id="toggleDarkMode"></i>
         </div>
-        <div class="buttons-container">
-            <div class="button-wrapper">
-                <img src="https://files.catbox.moe/cu33ir.jpeg" alt="WhatsApp">
-                <a href="https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y">
-                    <button class="channel">Genesis-Channel </button>
-                </a>
-            </div>
-            <div class="button-wrapper">
-                <img src="https://files.catbox.moe/bm1dpq.jpeg" alt="WhatsApp">
-                <a href="https://whatsapp.com/channel/0029VavYQDTBlHpcishJCZ0k">
-                    <button class="channel"> Izumi-Channel </button>
-                </a>
-            </div>
+        <div class="profile">
+            <img src="https://i.ibb.co/Y7mhFdf/file.jpg" alt="Perfil" />
+            <div class="active-indicator"></div>
         </div>
     </div>
 
-    <div id="tienda" class="section">
-        <h2>Tienda</h2>
-        <div class="product">
-            <img src="https://via.placeholder.com/150" alt="Producto 1">
-            <div class="product-info">
-                <h3>Producto 1</h3>
-                <p>Descripción del producto 1. Este es un artículo muy popular.</p>
-                <button class="button-channel">Comprar ahora</button>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://via.placeholder.com/150" alt="Producto 2">
-            <div class="product-info">
-                <h3>Producto 2</h3>
-                <p>Descripción del producto 2. ¡No te lo puedes perder!</p>
-                <button class="button-channel">Comprar ahora</button>
-            </div>
-        </div>
-        <div class="product">
-            <img src="https://via.placeholder.com/150" alt="Producto 3">
-            <div class="product-info">
-                <h3>Producto 3</h3>
-                <p>Descripción del producto 3. ¡Haz tu compra ya!</p>
-                <button class="button-channel">Comprar ahora</button>
-            </div>
-        </div>
+    <div class="dropdown">
+        <div class="title">Comandos de DarkCore Club</div>
+        <select>
+            <option value="anime">Anime</option>
+            <option value="musica">Música</option>
+            <option value="juegos">Juegos</option>
+            <option value="otros">Otros</option>
+        </select>
     </div>
 
-    <div id="staff" class="section">
-        <div class="staff-member">
-            <div class="staff-card">
-                <img src="https://avatars.githubusercontent.com/u/153532713?v=4" alt="Miembro del staff 1">
-                <div class="staff-info">
-                    <h3>Izumi-kzx</h3>
-                    <p>"Soy programador y creador de Genesis-Ultra, una herramienta innovadora diseñada para mejorar y optimizar tu experiencia en WhatsApp, facilitando tareas y ofreciendo soluciones que simplifican la comunicación en esta plataforma."</p>
-                </div>
-            </div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="https://i.ibb.co/Y7mhFdf/file.jpg" alt="Perfil">
+            <h3>DarkCore Club</h3>
+            <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
         </div>
-
-        <div class="staff-member">
-            <div class="staff-card">
-                <img src="https://avatars.githubusercontent.com/u/175991547?v=4" alt="Miembro del staff 2">
-                <div class="staff-info">
-                    <h3>WillZek</h3>
-                    <p>"Soy creador De CrowBot, también hago logos únicos y atractivos, especializado en reflejar la esencia de cada marca.
-                        También tengo experiencia en programación para ofrecer soluciones completas."</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-
-    <div id="settings" class="section">
-        <h2>Settings</h2>
-        <div class="settings-container">
-            <p>Manage your preferences and customize your experience:</p>
-
-            <div class="setting-item">
-                <label for="dark-mode">
-                    <span>Dark Mode</span>
-                    <input type="checkbox" id="dark-mode">
-                </label>
-            </div>
-
-            <div class="setting-item">
-                <label for="notifications">
-                    <span>Enable Notifications</span>
-                    <input type="checkbox" id="notifications">
-                </label>
-            </div>
-
-            <div class="setting-item">
-                <label for="language">
-                    <span>Language</span>
-                    <select id="language">
-                        <option value="en">English</option>
-                        <option value="es">Español</option>
-                        <option value="fr">Français</option>
-                    </select>
-                </label>
-            </div>
-
-            <button class="save-settings">Save Changes</button>
-        </div>
-    </div>
-
-
-
-    <div id="about" class="section">
-        <div class="terms-container">
-            <h2>Términos y Condiciones</h2>
-            <p>Estos términos y condiciones rigen el uso del bot Genesis (en adelante, "el Bot"). Al interactuar con el Bot, el usuario acepta cumplir con estos términos. Si no está de acuerdo con alguna de las condiciones, no debe usar el Bot.</p>
-
-            <div class="terms-content">
-                <h3>1. Prohibición de Ventas del Bot</h3>
-                <p>El Bot no debe ser comercializado, vendido, alquilado, arrendado o distribuido bajo ninguna circunstancia sin la autorización expresa y por escrito del creador. Cualquier intento de venta del Bot será considerado una violación de estos términos.</p>
-
-                <h3>2. Prohibición de Instalación en Pre-Bots en Hostinger sin Autorización</h3>
-                <p>Está prohibido instalar, usar o distribuir el Bot en pre-bots alojados en plataformas como Hostinger o cualquier otra infraestructura de alojamiento sin la debida autorización expresa por parte del creador. Cualquier uso no autorizado puede resultar en la suspensión o cancelación del acceso al Bot.</p>
-
-                <h3>3. Prohibición de Modificación del Código del Bot*</h3>
-                <p>Queda estrictamente prohibido modificar, alterar, descompilar o realizar ingeniería inversa al código fuente del Bot. Los usuarios no podrán crear versiones modificadas del Bot ni distribuir tales versiones sin el consentimiento previo del creador. Cualquier violación a esta cláusula resultará en acciones legales correspondientes.</p>
-
-                <h3>4. Privacidad y Uso de Datos</h3>
-                <p>El Bot no recopila información personal identificable de los usuarios de manera intencionada. Sin embargo, el Bot puede almacenar datos no identificables, como interacciones o preferencias de usuario, para mejorar la experiencia de uso. Estos datos no serán vendidos ni compartidos con terceros sin el consentimiento explícito del usuario.</p>
-
-                <h3>5. Responsabilidad del Usuario</h3>
-                <p>El usuario es responsable de asegurarse de que su uso del Bot esté en cumplimiento con todas las leyes y regulaciones aplicables. El creador no será responsable de cualquier uso indebido del Bot ni de sus consecuencias.</p>
-
-                <h3>6. Modificaciones a los Términos</h3>
-                <p>El creador se reserva el derecho de modificar estos términos en cualquier momento. Las modificaciones entrarán en vigor inmediatamente después de su publicación. Se recomienda al usuario revisar periódicamente los términos y condiciones.</p>
-
-                <h3>7. Contacto</h3>
-                <p>Para cualquier duda o solicitud relacionada con estos términos, el usuario puede contactar al creador a través de los canales oficiales proporcionados.</p>
-            </div>
-        </div>
+        <ul>
+            <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="#"><i class="fas fa-book"></i> Comandos</a></li>
+            <li><a href="#"><i class="fas fa-user"></i> Perfil</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+        </ul>
     </div>
 
     <footer>
-        <span>Genesis ®</span> | derechos Reservados
+        © 2025 Made With <span class="heart">❤</span> By
+        <a href="#">LightningDark</a> & <a href="#">DarkCore</a>
     </footer>
-    
-    <script type="module" src="./lib/javascript/dark-mode.js"></script>
-    <script type="module" src="./lib/javascript/menu.js"></script>
-    <script type="module" src="./lib/javascript/"></script>
 
     <script>
-        function toggleMenu() {
-            document.body.classList.toggle('menu-active');
-        }
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const toggleDarkMode = document.getElementById('toggleDarkMode');
+        const body = document.body;
 
-        function showSection(sectionId) {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach((section) => {
-                section.classList.remove('active');
-            });
-            document.getElementById(sectionId).classList.add('active');
-            toggleMenu();
-        }
-    </script>
-    <script>
-        const darkModeToggle = document.getElementById('dark-mode');
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const darkModeEnabled = localStorage.getItem('darkMode') === 'true';
-            if (darkModeEnabled) {
-                document.body.classList.add('dark-mode');
-                darkModeToggle.checked = true;
-            }
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.add('open');
         });
 
-        darkModeToggle.addEventListener('change', () => {
-            if (darkModeToggle.checked) {
-                document.body.classList.add('dark-mode');
-                localStorage.setItem('darkMode', 'true');
-            } else {
-                document.body.classList.remove('dark-mode');
-                localStorage.setItem('darkMode', 'false');
-            }
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('open');
         });
-    </script>
-    <script>
-        const languageSelect = document.getElementById('language');
 
-        function changeLanguage(event) {
-            const selectedLanguage = event.target.value;
-
-            // Aquí podrías usar un objeto de traducciones o cambiar dinámicamente el contenido de la página.
-            // A modo de ejemplo, solo cambiaremos el idioma del texto que hay en la página.
-
-            if (selectedLanguage === 'en') {
-                document.body.setAttribute('lang', 'en');
-                alert('Idioma cambiado a Inglés');
-            } else if (selectedLanguage === 'es') {
-                document.body.setAttribute('lang', 'es');
-                alert('Idioma cambiado a Español');
-            } else if (selectedLanguage === 'fr') {
-                document.body.setAttribute('lang', 'fr');
-                alert('Idioma cambiado a Francés');
-            }
-        }
-
-        languageSelect.addEventListener('change', changeLanguage);
+        toggleDarkMode.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+        });
     </script>
 </body>
 
