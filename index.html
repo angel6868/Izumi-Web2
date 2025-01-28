@@ -179,11 +179,10 @@
     <div class="commands-container">
         <h2>Comandos de Neko's Club</h2>
         <div class="dropdown">
-            <select>
-                <option value="anime">ej: anime</option>
-                <option value="musica">Música</option>
-                <option value="juegos">Juegos</option>
-                <option value="otros">Otros</option>
+            <select id="themeSelector">
+                <option value="system">Sistema</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
             </select>
         </div>
     </div>
@@ -194,23 +193,54 @@
     </footer>
 
     <script>
-        const themeToggle = document.getElementById('themeToggle');
+        const themeSelector = document.getElementById('themeSelector');
         const body = document.body;
+        const themeToggle = document.getElementById('themeToggle');
 
-        themeToggle.addEventListener('click', () => {
-            // Cambiar entre los tres temas: Sistema (Predeterminado), Light, y Dark
-            if (body.classList.contains('light-theme')) {
+        // Establecer el tema inicial como Sistema
+        let currentTheme = 'system';
+        body.classList.add('dark-theme'); // Predeterminado Dark
+
+        // Función para cambiar los temas
+        function changeTheme(theme) {
+            if (theme === 'light') {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                themeToggle.className = 'fas fa-sun dark-mode-icon'; // Sol para el tema claro
+            } else if (theme === 'dark') {
                 body.classList.remove('light-theme');
                 body.classList.add('dark-theme');
                 themeToggle.className = 'fas fa-moon dark-mode-icon'; // Luna para el tema oscuro
-            } else if (body.classList.contains('dark-theme')) {
-                body.classList.remove('dark-theme');
-                themeToggle.className = 'fas fa-sun dark-mode-icon'; // Sol para el tema claro
-                body.classList.add('light-theme');
             } else {
-                body.classList.add('light-theme');
-                themeToggle.className = 'fas fa-sun dark-mode-icon'; // Sol para el tema claro
+                body.classList.remove('light-theme', 'dark-theme');
+                // Elige el tema del sistema (predeterminado)
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    body.classList.add('dark-theme');
+                    themeToggle.className = 'fas fa-moon dark-mode-icon';
+                } else {
+                    body.classList.add('light-theme');
+                    themeToggle.className = 'fas fa-sun dark-mode-icon';
+                }
             }
+        }
+
+        // Cambiar el tema al seleccionar una opción
+        themeSelector.addEventListener('change', (event) => {
+            currentTheme = event.target.value;
+            changeTheme(currentTheme);
+        });
+
+        // Cambiar el tema haciendo clic en el ícono de la laptop
+        themeToggle.addEventListener('click', () => {
+            if (currentTheme === 'light') {
+                currentTheme = 'dark';
+            } else if (currentTheme === 'dark') {
+                currentTheme = 'system';
+            } else {
+                currentTheme = 'light';
+            }
+            changeTheme(currentTheme);
+            themeSelector.value = currentTheme; // Actualiza el selector
         });
     </script>
 </body>
