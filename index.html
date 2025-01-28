@@ -22,9 +22,9 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Barra superior */
         .header {
             display: flex;
             justify-content: space-between;
@@ -72,7 +72,6 @@
             border: 2px solid #2e3349;
         }
 
-        /* Contenedor de comandos */
         .commands-container {
             width: 100%;
             max-width: 600px;
@@ -120,6 +119,130 @@
             box-shadow: 0px -3px 10px rgba(0, 0, 0, 0.2);
         }
 
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: #30344c;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: #30344c;
+            color: black;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .sidebar-header h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #acb4cc;
+        }
+
+        .close-sidebar {
+            cursor: pointer;
+            font-size: 18px;
+            color: #acb4cc;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 20px;
+            background-color: #30344c;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.3s ease;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
+
+        .sidebar ul li a:hover {
+            background: #645ccc;
+            color: white;
+        }
+
+        .dark-mode body {
+            background: #242c3c;
+            color: white;
+        }
+
+        .dark-mode .header {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+        }
+
+        .dark-mode footer {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+            color: white;
+        }
+
+        .dark-mode .dropdown select {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+            color: white;
+        }
+
+        .dark-mode .sidebar {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+            color: white;
+        }
+
+        .dark-mode .sidebar ul li a {
+            color: white;
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+        }
+
+        .dark-mode .sidebar ul {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+        }
+
+        .dark-mode .sidebar-header {
+            background: linear-gradient(90deg, #c964de, #5a4fff);
+            color: white;
+        }
+
+        .dark-mode .sidebar ul li a:hover {
+            color: white;
+        }
+
+        .dark-mode .sidebar-header h3 {
+            color: white;
+        }
+
+        .dark-mode .sidebar ul li a i {
+            color: white;
+        }
+
     </style>
 </head>
 
@@ -127,8 +250,8 @@
     <!-- Barra superior -->
     <div class="header">
         <div class="menu-container">
-            <i class="fas fa-bars menu-icon"></i>
-            <i class="fas fa-laptop dark-mode-icon"></i>
+            <i class="fas fa-bars menu-icon" id="menuToggle"></i>
+            <i class="fas fa-laptop dark-mode-icon" id="toggleDarkMode"></i>
         </div>
         <div class="profile">
             <img src="https://i.ibb.co/rMx6Gwc/file.jpg" alt="Perfil" />
@@ -138,10 +261,10 @@
 
     <!-- Contenedor de comandos -->
     <div class="commands-container">
-        <h2>Comandos de Neko's Club</h2>
+        <h2>Comandos de Genesis</h2>
         <div class="dropdown">
             <select>
-                <option value="anime">ej: anime</option>
+                <option value="anime">Anime</option>
                 <option value="musica">Música</option>
                 <option value="juegos">Juegos</option>
                 <option value="otros">Otros</option>
@@ -154,6 +277,40 @@
         © 2025 Made With ❤ By Genesis & Izumi
     </footer>
 
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="https://i.ibb.co/rMx6Gwc/file.jpg" alt="Perfil">
+            <h3>Izumi Plus</h3>
+            <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
+        </div>
+        <ul>
+            <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="#"><i class="fas fa-book"></i> Comandos</a></li>
+            <li><a href="#"><i class="fas fa-user"></i> Perfil</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+        </ul>
+    </div>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const toggleDarkMode = document.getElementById('toggleDarkMode');
+        const body = document.body;
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.add('open');
+        });
+
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+        });
+
+        toggleDarkMode.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+        });
+    </script>
 </body>
 
 </html>
