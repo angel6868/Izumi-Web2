@@ -166,7 +166,7 @@
     <!-- Barra superior -->
     <div class="header">
         <div class="menu-container">
-            <i class="fas fa-bars menu-icon"></i>
+            <i class="fas fa-bars menu-icon" id="menuIcon"></i>
             <i class="fas fa-laptop dark-mode-icon" id="themeToggle"></i>
         </div>
         <div class="profile">
@@ -196,6 +196,7 @@
         const themeSelector = document.getElementById('themeSelector');
         const body = document.body;
         const themeToggle = document.getElementById('themeToggle');
+        const menuIcon = document.getElementById('menuIcon');
 
         // Establecer el tema inicial como Sistema
         let currentTheme = 'system';
@@ -241,6 +242,11 @@
             }
             changeTheme(currentTheme);
             themeSelector.value = currentTheme; // Actualiza el selector
+        });
+
+        // Mantener la funcionalidad del símbolo ≡
+        menuIcon.addEventListener('click', () => {
+            alert('¡Abriste el menú! Aquí podrías agregar más opciones.');
         });
     </script>
 </body>
