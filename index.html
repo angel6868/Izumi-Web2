@@ -15,14 +15,13 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #1c1f2b; /* Tema predeterminado */
+            background-color: #1c1f2b;
             color: #acb4cc;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            transition: background-color 0.3s, color 0.3s;
         }
 
         /* Barra superior */
@@ -122,41 +121,79 @@
             box-shadow: 0px -3px 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* Light theme */
-        .light-theme body {
-            background-color: #f5f5f5;
-            color: #333;
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: #30344c;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            z-index: 1000;
         }
 
-        .light-theme .header {
-            background: #e0e0e0;
+        .sidebar.open {
+            left: 0;
         }
 
-        .light-theme .commands-container {
-            background: #e0e0e0;
+        .sidebar-header {
+            padding: 20px;
+            background: #30344c;
+            color: black;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .light-theme footer {
-            background: #e0e0e0;
-            color: #333;
+        .sidebar-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
         }
 
-        /* Dark theme */
-        .dark-theme body {
-            background-color: #121212;
-            color: #e0e0e0;
+        .sidebar-header h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #acb4cc;
         }
 
-        .dark-theme .header {
-            background: #1e1e1e;
+        .close-sidebar {
+            cursor: pointer;
+            font-size: 18px;
+            color: #acb4cc;
         }
 
-        .dark-theme .commands-container {
-            background: #1e1e1e;
+        .sidebar ul {
+            list-style: none;
+            padding: 20px;
+            background-color: #30344c;
         }
 
-        .dark-theme footer {
-            background: #1e1e1e;
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.3s ease;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
+
+        .sidebar ul li a:hover {
+            background: #645ccc;
+            color: white;
         }
 
     </style>
@@ -166,8 +203,8 @@
     <!-- Barra superior -->
     <div class="header">
         <div class="menu-container">
-            <i class="fas fa-bars menu-icon" id="menuIcon"></i>
-            <i class="fas fa-laptop dark-mode-icon" id="themeToggle"></i>
+            <i class="fas fa-bars menu-icon" id="menuToggle"></i>
+            <i class="fas fa-laptop dark-mode-icon" id="toggleDarkMode"></i>
         </div>
         <div class="profile">
             <img src="https://i.ibb.co/rMx6Gwc/file.jpg" alt="Perfil" />
@@ -175,14 +212,30 @@
         </div>
     </div>
 
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="https://i.ibb.co/rMx6Gwc/file.jpg" alt="Perfil">
+            <h3>Izumi Plus</h3>
+            <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
+        </div>
+        <ul>
+            <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="#"><i class="fas fa-book"></i> Comandos</a></li>
+            <li><a href="#"><i class="fas fa-user"></i> Perfil</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+        </ul>
+    </div>
+
     <!-- Contenedor de comandos -->
     <div class="commands-container">
         <h2>Comandos de Neko's Club</h2>
         <div class="dropdown">
-            <select id="themeSelector">
-                <option value="system">Sistema</option>
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
+            <select>
+                <option value="anime">ej: anime</option>
+                <option value="musica">Música</option>
+                <option value="juegos">Juegos</option>
+                <option value="otros">Otros</option>
             </select>
         </div>
     </div>
@@ -193,60 +246,23 @@
     </footer>
 
     <script>
-        const themeSelector = document.getElementById('themeSelector');
+        // Abrir y cerrar el sidebar
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const toggleDarkMode = document.getElementById('toggleDarkMode');
         const body = document.body;
-        const themeToggle = document.getElementById('themeToggle');
-        const menuIcon = document.getElementById('menuIcon');
 
-        // Establecer el tema inicial como Sistema
-        let currentTheme = 'system';
-        body.classList.add('dark-theme'); // Predeterminado Dark
-
-        // Función para cambiar los temas
-        function changeTheme(theme) {
-            if (theme === 'light') {
-                body.classList.remove('dark-theme');
-                body.classList.add('light-theme');
-                themeToggle.className = 'fas fa-sun dark-mode-icon'; // Sol para el tema claro
-            } else if (theme === 'dark') {
-                body.classList.remove('light-theme');
-                body.classList.add('dark-theme');
-                themeToggle.className = 'fas fa-moon dark-mode-icon'; // Luna para el tema oscuro
-            } else {
-                body.classList.remove('light-theme', 'dark-theme');
-                // Elige el tema del sistema (predeterminado)
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    body.classList.add('dark-theme');
-                    themeToggle.className = 'fas fa-moon dark-mode-icon';
-                } else {
-                    body.classList.add('light-theme');
-                    themeToggle.className = 'fas fa-sun dark-mode-icon';
-                }
-            }
-        }
-
-        // Cambiar el tema al seleccionar una opción
-        themeSelector.addEventListener('change', (event) => {
-            currentTheme = event.target.value;
-            changeTheme(currentTheme);
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.add('open');
         });
 
-        // Cambiar el tema haciendo clic en el ícono de la laptop
-        themeToggle.addEventListener('click', () => {
-            if (currentTheme === 'light') {
-                currentTheme = 'dark';
-            } else if (currentTheme === 'dark') {
-                currentTheme = 'system';
-            } else {
-                currentTheme = 'light';
-            }
-            changeTheme(currentTheme);
-            themeSelector.value = currentTheme; // Actualiza el selector
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('open');
         });
 
-        // Mantener la funcionalidad del símbolo ≡
-        menuIcon.addEventListener('click', () => {
-            alert('¡Abriste el menú! Aquí podrías agregar más opciones.');
+        toggleDarkMode.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
         });
     </script>
 </body>
