@@ -15,38 +15,38 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #282c3c;
+            background-color: #1c1f2b;
             color: #acb4cc;
             display: flex;
             flex-direction: column;
+            align-items: center;
             min-height: 100vh;
-            transition: background-color 0.3s, color 0.3s;
+            padding: 20px;
         }
 
+        /* Barra superior */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
+            width: 100%;
+            max-width: 600px;
             background: #2e3349;
-            border-radius: 15px;
-            margin: 10px;
-            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
-            height: 60px;
-            transition: background-color 0.3s;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
         }
 
         .menu-container {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            width: 100%;
         }
 
-        .menu-icon {
+        .menu-icon, .dark-mode-icon {
             font-size: 24px;
             color: #acb4cc;
             cursor: pointer;
+            margin-right: 15px;
         }
 
         .profile {
@@ -72,48 +72,39 @@
             border: 2px solid #2e3349;
         }
 
-        .dark-mode-icon {
-            font-size: 24px;
-            cursor: pointer;
-            margin-left: 20px;
+        /* Contenedor de comandos */
+        .commands-container {
+            width: 100%;
+            max-width: 600px;
+            background: #2e3349;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .title {
-            text-align: center;
-            margin: 15px 0;
+        .commands-container h2 {
             font-size: 1.3rem;
-            font-weight: bold;
-            color: #acb4cc;
-            transition: color 0.3s;
+            margin-bottom: 15px;
+            color: #ffffff;
         }
 
         .dropdown {
-            width: 60%;
-            margin: 20px auto;
-            text-align: center;
+            width: 100%;
+            position: relative;
         }
 
         .dropdown select {
             width: 100%;
             padding: 12px;
-            border-radius: 10px;
+            border-radius: 8px;
             border: none;
-            background-color: #2e3349;
+            background-color: #3a3f5c;
             color: #acb4cc;
             font-size: 1rem;
             cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container {
-            flex-grow: 1;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            outline: none;
         }
 
         footer {
@@ -122,181 +113,22 @@
             background: #242c3c;
             color: #acb4cc;
             padding: 10px;
-            box-shadow: 0px -3px 10px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s, color 0.3s;
-            position: relative;
-            width: 100%;
             margin-top: auto;
-        }
-
-        footer a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        .heart {
-            color: red;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.2);
-            }
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -250px;
-            width: 250px;
-            height: 100%;
-            background: #30344c;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-            z-index: 1000;
-        }
-
-        .sidebar.open {
-            left: 0;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            background: #30344c;
-            color: black;
-            height: 75px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .sidebar-header img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-        }
-
-        .sidebar-header h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #acb4cc;
-        }
-
-        .close-sidebar {
-            cursor: pointer;
-            font-size: 18px;
-            color: #acb4cc;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 20px;
-            background-color: #30344c;
-        }
-
-        .sidebar ul li {
-            margin-bottom: 15px;
-        }
-
-        .sidebar ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            padding: 10px;
+            width: 100%;
+            max-width: 600px;
             border-radius: 10px;
-            transition: background-color 0.3s, transform 0.3s ease;
+            box-shadow: 0px -3px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .sidebar ul li a i {
-            margin-right: 10px;
-        }
-
-        .sidebar ul li a:hover {
-            background: #645ccc;
-            color: white;
-        }
-
-        /* Estilos para el modo oscuro */
-        .dark-mode body {
-            background: #242c3c;
-            color: white;
-        }
-
-        .dark-mode .header {
-            background: linear-gradient(90deg, #c964de, #5a4fff);
-        }
-
-        .dark-mode footer {
-            background: linear-gradient(90deg, #c964de, #5a4fff);
-            color: white;
-        }
-
-        .dark-mode .dropdown select {
-            background: linear-gradient(90deg, #c964de, #5a4fff);
-            color: white;
-        }
-
-        .dark-mode .sidebar {
-            background: linear-gradient(90deg, #c964de, #5a4fff);
-            color: white;
-        }
-
-        .dark-mode .sidebar ul li a {
-            color: white;
-            background: linear-gradient(90deg, #c964de, #5a4fff);
-        }
-
-        .dark-mode .sidebar ul {
-            background: linear-gradient(90deg, #c964de, #5a4fff);
-        }
-
-        .dark-mode .sidebar-header {
-            background: linear-gradient(90deg, #c964de, #5a4fff);
-            color: white;
-        }
-
-        .dark-mode .sidebar ul li a:hover {
-            color: white;
-        }
-
-        .dark-mode .sidebar-header h3 {
-            color: white;
-        }
-
-        .dark-mode .sidebar ul li a i {
-            color: white;
-        }
-        .dark-mode .menu-icon{
-            color: white;
-        }
-        .dark-mode .dark-mode-icon{
-            color: white;
-        }
-
-        .dark-mode .close-sidebar{
-            color: white;
-        }
-        
     </style>
 </head>
 
 <body>
+    <!-- Barra superior -->
     <div class="header">
         <div class="menu-container">
-            <i class="fas fa-bars menu-icon" id="menuToggle"></i>
-            <i class="fas fa-laptop dark-mode-icon" id="toggleDarkMode"></i>
+            <i class="fas fa-bars menu-icon"></i>
+            <i class="fas fa-laptop dark-mode-icon"></i>
         </div>
         <div class="profile">
             <img src="https://i.ibb.co/rMx6Gwc/file.jpg" alt="Perfil" />
@@ -304,54 +136,24 @@
         </div>
     </div>
 
-    <div class="dropdown">
-        <div class="title">Comandos de Genesis</div>
-        <select>
-            <option value="anime">Anime</option>
-            <option value="musica">Música</option>
-            <option value="juegos">Juegos</option>
-            <option value="otros">Otros</option>
-        </select>
-    </div>
-
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <img src="https://i.ibb.co/rMx6Gwc/file.jpg" alt="Perfil">
-            <h3>Izumi Plus</h3>
-            <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
+    <!-- Contenedor de comandos -->
+    <div class="commands-container">
+        <h2>Comandos de Neko's Club</h2>
+        <div class="dropdown">
+            <select>
+                <option value="anime">ej: anime</option>
+                <option value="musica">Música</option>
+                <option value="juegos">Juegos</option>
+                <option value="otros">Otros</option>
+            </select>
         </div>
-        <ul>
-            <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
-            <li><a href="#"><i class="fas fa-book"></i> Comandos</a></li>
-            <li><a href="#"><i class="fas fa-user"></i> Perfil</a></li>
-            <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
-        </ul>
     </div>
 
+    <!-- Pie de página -->
     <footer>
-        © 2025 Made With <span class="heart">❤</span> By
-        <a href="#">Genesis</a> & <a href="#">Izumi</a>
+        © 2025 Made With ❤ By Genesis & Izumi
     </footer>
 
-    <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.getElementById('sidebar');
-        const closeSidebar = document.getElementById('closeSidebar');
-        const toggleDarkMode = document.getElementById('toggleDarkMode');
-        const body = document.body;
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.add('open');
-        });
-
-        closeSidebar.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-        });
-
-        toggleDarkMode.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-        });
-    </script>
 </body>
 
 </html>
