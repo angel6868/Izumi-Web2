@@ -40,17 +40,11 @@
             align-items: center;
         }
 
-        .menu-icon,
-        .dark-mode-icon {
+        .menu-icon {
             font-size: 24px;
             color: #acb4cc;
             cursor: pointer;
             margin-right: 15px;
-        }
-
-        .profile {
-            display: flex;
-            align-items: center;
         }
 
         .profile img {
@@ -76,146 +70,50 @@
             color: white;
         }
 
-        .dropdown {
-            width: 100%;
-            position: relative;
-            text-align: center;
-        }
-
-        .toggle-bar {
-            background-color: #3a3f5c;
-            color: #acb4cc;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
+        /* Barra de categorías deslizante */
+        .categories {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1rem;
-        }
-
-        .toggle-bar i {
-            transition: transform 0.3s;
-        }
-
-        .dropdown-content {
-            display: none;
-            width: 100%;
-            background-color: #242c3c;
+            overflow-x: auto;
             padding: 10px;
-            border-radius: 8px;
-            margin-top: 5px;
-            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .dropdown-content button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background-color: #3a3f5c;
-            color: #acb4cc;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-bottom: 5px;
-        }
-
-        .dropdown-content button:hover {
-            background-color: #645ccc;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -250px;
-            width: 250px;
-            height: 100%;
-            background: #30344c;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-            z-index: 1000;
-        }
-
-        .sidebar.open {
-            left: 0;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            background: #30344c;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .sidebar-header img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-        }
-
-        .sidebar-header h3 {
-            font-size: 18px;
-            color: #acb4cc;
-        }
-
-        .close-sidebar {
-            cursor: pointer;
-            font-size: 18px;
-            color: #acb4cc;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 20px;
-        }
-
-        .sidebar ul li {
-            margin-bottom: 15px;
-        }
-
-        .sidebar ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            padding: 10px;
+            background: #3a3f5c;
             border-radius: 10px;
-            transition: background-color 0.3s;
+            white-space: nowrap;
+            gap: 10px;
+            scrollbar-width: none; /* Oculta el scrollbar en Firefox */
         }
 
-        .sidebar ul li a:hover {
+        .categories::-webkit-scrollbar {
+            display: none; /* Oculta el scrollbar en Chrome/Safari */
+        }
+
+        .category {
+            padding: 10px 20px;
+            background: #4a4f71;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .category:hover, .category.active {
             background: #645ccc;
         }
 
-        .category-container {
-            display: none;
-            margin-top: 10px;
-        }
-
         .card {
-            background: #3a3f5c;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .card i {
-            font-size: 20px;
-        }
-
-        .card-detail {
             display: none;
             background: #242c3c;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 5px;
-            color: #fff;
+            padding: 20px;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .card img {
+            width: 100px;
+            border-radius: 10px;
+            margin-bottom: 10px;
         }
 
         footer {
@@ -242,96 +140,37 @@
         </div>
     </div>
 
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <img src="https://i.ibb.co/rMx6Gwc/file.jpg" alt="Perfil">
-            <h3>Izumi Plus</h3>
-            <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
-        </div>
-        <ul>
-            <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
-            <li><a href="#"><i class="fas fa-book"></i> Comandos</a></li>
-            <li><a href="#"><i class="fas fa-user"></i> Perfil</a></li>
-            <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
-        </ul>
-    </div>
-
     <div class="commands-container">
         <h2>Comandos de Genesis</h2>
-        <div class="dropdown">
-            <div class="toggle-bar" id="toggleDropdown">
-                Selecciona una categoría
-                <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="dropdown-content" id="dropdownContent">
-                <button onclick="showCategory('anime')">Anime</button>
-                <button onclick="showCategory('music')">Música</button>
-                <button onclick="showCategory('games')">Juegos</button>
-                <button onclick="showCategory('others')">Otros</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="category-container" id="anime">
-        <div class="card" onclick="toggleDetails('animeListDetail')">
-            <span><i class="fas fa-film"></i> Anime List</span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div id="animeListDetail" class="card-detail">
-            <p><strong>Nombre:</strong> Anime List</p>
-            <p><strong>Requerido:</strong> Nombre del anime</p>
-            <p><strong>Uso:</strong> Muestra una lista de animes populares y sus detalles.</p>
+        <div class="categories">
+            <div class="category" data-category="anime">Anime</div>
+            <div class="category" data-category="musica">Música</div>
+            <div class="category" data-category="juegos">Juegos</div>
+            <div class="category" data-category="otros">Otros</div>
         </div>
 
-        <div class="card" onclick="toggleDetails('animeQuotesDetail')">
-            <span><i class="fas fa-quote-left"></i> Anime Quotes</span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div id="animeQuotesDetail" class="card-detail">
-            <p><strong>Nombre:</strong> Anime Quotes</p>
-            <p><strong>Uso:</strong> Muestra frases icónicas de personajes de anime.</p>
-        </div>
-    </div>
-
-    <div class="category-container" id="music">
-        <div class="card" onclick="toggleDetails('appleMusicDetail')">
-            <span><i class="fas fa-music"></i> Apple Music</span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div id="appleMusicDetail" class="card-detail">
-            <p><strong>Nombre:</strong> Apple Music</p>
-            <p><strong>Requerido:</strong> Título de la canción</p>
-            <p><strong>Uso:</strong> Permite buscar y reproducir canciones desde Apple Music.</p>
+        <div class="card" id="anime">
+            <img src="https://i.ibb.co/0mYWJ6Z/anime.jpg" alt="Anime">
+            <h3>Anime</h3>
+            <p>Explora comandos relacionados con el mundo del anime.</p>
         </div>
 
-        <div class="card" onclick="toggleDetails('spotifyDetail')">
-            <span><i class="fab fa-spotify"></i> Spotify</span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div id="spotifyDetail" class="card-detail">
-            <p><strong>Nombre:</strong> Spotify</p>
-            <p><strong>Requerido:</strong> Título o enlace de la canción</p>
-            <p><strong>Uso:</strong> Reproduce canciones directamente desde Spotify.</p>
-        </div>
-    </div>
-
-    <div class="category-container" id="games">
-        <div class="card" onclick="toggleDetails('game1Detail')">
-            <span><i class="fas fa-gamepad"></i> Juego 1</span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div id="game1Detail" class="card-detail">
-            <p><strong>Nombre:</strong> Juego 1</p>
-            <p><strong>Uso:</strong> Descripción del juego 1.</p>
+        <div class="card" id="musica">
+            <img src="https://i.ibb.co/YXWbZ0P/musica.jpg" alt="Música">
+            <h3>Música</h3>
+            <p>Descubre comandos para reproducir música y más.</p>
         </div>
 
-        <div class="card" onclick="toggleDetails('game2Detail')">
-            <span><i class="fas fa-gamepad"></i> Juego 2</span>
-            <i class="fas fa-chevron-right"></i>
+        <div class="card" id="juegos">
+            <img src="https://i.ibb.co/vY7HF3F/juegos.jpg" alt="Juegos">
+            <h3>Juegos</h3>
+            <p>Obtén comandos relacionados con videojuegos.</p>
         </div>
-        <div id="game2Detail" class="card-detail">
-            <p><strong>Nombre:</strong> Juego 2</p>
-            <p><strong>Uso:</strong> Descripción del juego 2.</p>
+
+        <div class="card" id="otros">
+            <img src="https://i.ibb.co/k2G6mfW/otros.jpg" alt="Otros">
+            <h3>Otros</h3>
+            <p>Encuentra otros comandos útiles.</p>
         </div>
     </div>
 
@@ -340,31 +179,25 @@
     </footer>
 
     <script>
-        document.getElementById('menuToggle').addEventListener('click', function () {
-            document.getElementById('sidebar').classList.toggle('open');
+        document.addEventListener("DOMContentLoaded", function () {
+            const categories = document.querySelectorAll(".category");
+            const cards = document.querySelectorAll(".card");
+
+            categories.forEach(category => {
+                category.addEventListener("click", function () {
+                    // Oculta todas las tarjetas
+                    cards.forEach(card => card.style.display = "none");
+
+                    // Marca la categoría seleccionada
+                    categories.forEach(cat => cat.classList.remove("active"));
+                    this.classList.add("active");
+
+                    // Muestra la tarjeta correspondiente
+                    const selectedCategory = this.getAttribute("data-category");
+                    document.getElementById(selectedCategory).style.display = "block";
+                });
+            });
         });
-
-        document.getElementById('closeSidebar').addEventListener('click', function () {
-            document.getElementById('sidebar').classList.remove('open');
-        });
-
-        document.getElementById('toggleDropdown').addEventListener('click', function () {
-            const content = document.getElementById('dropdownContent');
-            const icon = this.querySelector("i");
-            content.style.display = content.style.display === "block" ? "none" : "block";
-            icon.style.transform = content.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
-        });
-
-        function showCategory(category) {
-            document.querySelectorAll('.category-container').forEach(el => el.style.display = 'none');
-            document.getElementById(category).style.display = 'block';
-            document.getElementById('toggleDropdown').innerHTML = category.charAt(0).toUpperCase() + category.slice(1) + ' <i class="fas fa-chevron-down"></i>';
-        }
-
-        function toggleDetails(detailId) {
-            const detail = document.getElementById(detailId);
-            detail.style.display = detail.style.display === "block" ? "none" : "block";
-        }
     </script>
 
 </body>
