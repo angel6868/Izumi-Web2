@@ -107,6 +107,13 @@
             outline: none;
         }
 
+        /* Mensaje de "No data available" */
+        .no-data {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #acb4cc;
+        }
+
         footer {
             text-align: center;
             font-size: 0.8rem;
@@ -193,7 +200,6 @@
             background: #645ccc;
             color: white;
         }
-
     </style>
 </head>
 
@@ -226,13 +232,15 @@
     <div class="commands-container">
         <h2>Comandos de Genesis</h2>
         <div class="dropdown">
-            <select>
-                <option value="anime">ej: anime</option>
+            <select id="categorySelect">
+                <option value="">Selecciona una categoría</option>
+                <option value="anime">Anime</option>
                 <option value="musica">Música</option>
                 <option value="juegos">Juegos</option>
                 <option value="otros">Otros</option>
             </select>
         </div>
+        <p id="noDataMessage" class="no-data">No data available</p>
     </div>
 
     <footer>
@@ -256,6 +264,11 @@
 
         toggleDarkMode.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
+        });
+
+        document.getElementById("categorySelect").addEventListener("change", function() {
+            let message = document.getElementById("noDataMessage");
+            message.style.display = this.value ? "none" : "block";
         });
     </script>
 </body>
