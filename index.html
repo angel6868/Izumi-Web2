@@ -124,6 +124,71 @@
             background-color: #645ccc;
         }
 
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: #30344c;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: #30344c;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .sidebar-header h3 {
+            font-size: 18px;
+            color: #acb4cc;
+        }
+
+        .close-sidebar {
+            cursor: pointer;
+            font-size: 18px;
+            color: #acb4cc;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 20px;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background: #645ccc;
+        }
+
         .category-container {
             display: none;
             margin-top: 10px;
@@ -293,8 +358,8 @@
         function showCategory(category) {
             document.querySelectorAll('.category-container').forEach(el => el.style.display = 'none');
             document.getElementById(category).style.display = 'block';
-            document.getElementById('toggleDropdown').innerHTML = category.charAt(0).toUpperCase() + category.slice(1) + ' <i class="fas fa-chevron-down"></i>';
             document.getElementById('dropdownContent').style.display = 'none';
+            document.getElementById('toggleDropdown').innerHTML = category.charAt(0).toUpperCase() + category.slice(1) + ' <i class="fas fa-chevron-down"></i>';
         }
 
         function toggleDetails(detailId) {
