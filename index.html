@@ -124,69 +124,33 @@
             background-color: #645ccc;
         }
 
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -250px;
-            width: 250px;
-            height: 100%;
-            background: #30344c;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-            z-index: 1000;
+        .category-container {
+            display: none;
+            margin-top: 10px;
         }
 
-        .sidebar.open {
-            left: 0;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            background: #30344c;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .sidebar-header img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-        }
-
-        .sidebar-header h3 {
-            font-size: 18px;
-            color: #acb4cc;
-        }
-
-        .close-sidebar {
-            cursor: pointer;
-            font-size: 18px;
-            color: #acb4cc;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 20px;
-        }
-
-        .sidebar ul li {
-            margin-bottom: 15px;
-        }
-
-        .sidebar ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            padding: 10px;
+        .card {
+            background: #3a3f5c;
+            padding: 15px;
             border-radius: 10px;
-            transition: background-color 0.3s;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
         }
 
-        .sidebar ul li a:hover {
-            background: #645ccc;
+        .card i {
+            font-size: 20px;
+        }
+
+        .card-detail {
+            display: none;
+            background: #242c3c;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 5px;
+            color: #fff;
         }
 
         footer {
@@ -235,13 +199,75 @@
                 <i class="fas fa-chevron-down"></i>
             </div>
             <div class="dropdown-content" id="dropdownContent">
-                <button onclick="selectCategory('Anime')">Anime</button>
-                <button onclick="selectCategory('Música')">Música</button>
-                <button onclick="selectCategory('Juegos')">Juegos</button>
-                <button onclick="selectCategory('Otros')">Otros</button>
+                <button onclick="showCategory('anime')">Anime</button>
+                <button onclick="showCategory('music')">Música</button>
+                <button onclick="showCategory('games')">Juegos</button>
+                <button onclick="showCategory('others')">Otros</button>
             </div>
         </div>
-        <div id="categoryContent"></div>
+    </div>
+
+    <div class="category-container" id="anime">
+        <div class="card" onclick="toggleDetails('animeListDetail')">
+            <span><i class="fas fa-film"></i> Anime List</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="animeListDetail" class="card-detail">
+            <p><strong>Nombre:</strong> Anime List</p>
+            <p><strong>Requerido:</strong> Nombre del anime</p>
+            <p><strong>Uso:</strong> Muestra una lista de animes populares y sus detalles.</p>
+        </div>
+
+        <div class="card" onclick="toggleDetails('animeQuotesDetail')">
+            <span><i class="fas fa-quote-left"></i> Anime Quotes</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="animeQuotesDetail" class="card-detail">
+            <p><strong>Nombre:</strong> Anime Quotes</p>
+            <p><strong>Uso:</strong> Muestra frases icónicas de personajes de anime.</p>
+        </div>
+    </div>
+
+    <div class="category-container" id="music">
+        <div class="card" onclick="toggleDetails('appleMusicDetail')">
+            <span><i class="fas fa-music"></i> Apple Music</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="appleMusicDetail" class="card-detail">
+            <p><strong>Nombre:</strong> Apple Music</p>
+            <p><strong>Requerido:</strong> Título de la canción</p>
+            <p><strong>Uso:</strong> Permite buscar y reproducir canciones desde Apple Music.</p>
+        </div>
+
+        <div class="card" onclick="toggleDetails('spotifyDetail')">
+            <span><i class="fab fa-spotify"></i> Spotify</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="spotifyDetail" class="card-detail">
+            <p><strong>Nombre:</strong> Spotify</p>
+            <p><strong>Requerido:</strong> Título o enlace de la canción</p>
+            <p><strong>Uso:</strong> Reproduce canciones directamente desde Spotify.</p>
+        </div>
+    </div>
+
+    <div class="category-container" id="games">
+        <div class="card" onclick="toggleDetails('game1Detail')">
+            <span><i class="fas fa-gamepad"></i> Juego 1</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="game1Detail" class="card-detail">
+            <p><strong>Nombre:</strong> Juego 1</p>
+            <p><strong>Uso:</strong> Descripción del juego 1.</p>
+        </div>
+
+        <div class="card" onclick="toggleDetails('game2Detail')">
+            <span><i class="fas fa-gamepad"></i> Juego 2</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="game2Detail" class="card-detail">
+            <p><strong>Nombre:</strong> Juego 2</p>
+            <p><strong>Uso:</strong> Descripción del juego 2.</p>
+        </div>
     </div>
 
     <footer>
@@ -264,42 +290,16 @@
             icon.style.transform = content.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
         });
 
-        function selectCategory(category) {
-            const categoryContent = document.getElementById('categoryContent');
-            const dropdown = document.getElementById('dropdownContent');
-            const toggleBar = document.getElementById('toggleDropdown');
-            const icon = toggleBar.querySelector("i");
+        function showCategory(category) {
+            document.querySelectorAll('.category-container').forEach(el => el.style.display = 'none');
+            document.getElementById(category).style.display = 'block';
+            document.getElementById('toggleDropdown').innerHTML = category.charAt(0).toUpperCase() + category.slice(1) + ' <i class="fas fa-chevron-down"></i>';
+            document.getElementById('dropdownContent').style.display = 'none';
+        }
 
-            dropdown.style.display = "none";  // Hide dropdown
-            icon.style.transform = "rotate(0deg)";  // Reset icon rotation
-
-            toggleBar.innerHTML = category + ' <i class="fas fa-chevron-down"></i>';  // Update the toggle bar with selected category
-
-            let contentHTML = '';
-
-            if (category === 'Anime') {
-                contentHTML = `
-                    <div class="category-card">Anime 1</div>
-                    <div class="category-card">Anime 2</div>
-                `;
-            } else if (category === 'Música') {
-                contentHTML = `
-                    <div class="category-card">Música 1</div>
-                    <div class="category-card">Música 2</div>
-                `;
-            } else if (category === 'Juegos') {
-                contentHTML = `
-                    <div class="category-card">Juego 1</div>
-                    <div class="category-card">Juego 2</div>
-                `;
-            } else if (category === 'Otros') {
-                contentHTML = `
-                    <div class="category-card">Opción 1</div>
-                    <div class="category-card">Opción 2</div>
-                `;
-            }
-
-            categoryContent.innerHTML = contentHTML;
+        function toggleDetails(detailId) {
+            const detail = document.getElementById(detailId);
+            detail.style.display = detail.style.display === "block" ? "none" : "block";
         }
     </script>
 
