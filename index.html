@@ -24,7 +24,6 @@
             padding: 20px;
         }
 
-        /* Barra superior */
         .header {
             display: flex;
             justify-content: space-between;
@@ -62,37 +61,46 @@
             border-radius: 50%;
         }
 
-        .active-indicator {
-            position: absolute;
-            bottom: 2px;
-            right: 2px;
-            width: 10px;
-            height: 10px;
-            background-color: #34c759;
-            border-radius: 50%;
-            border: 2px solid #2e3349;
-        }
-
         .commands-container {
             width: 100%;
             max-width: 600px;
             background: #2e3349;
             border-radius: 10px;
-            padding: 20px;
             margin-top: 20px;
-            text-align: center;
             box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .commands-container h2 {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: #ffffff;
+        .toggle-bar {
+            width: 100%;
+            text-align: center;
+            background: #2e3349;
+            border-radius: 10px;
+            cursor: pointer;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .dropdown {
+        .toggle-bar h2 {
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .toggle-bar i {
+            font-size: 20px;
+            color: #acb4cc;
+            transition: transform 0.3s;
+        }
+
+        .hidden-content {
             width: 100%;
-            position: relative;
+            background: #242c3c;
+            border-radius: 10px;
+            padding: 15px;
+            display: none;
+            text-align: center;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
         }
 
         .dropdown select {
@@ -107,44 +115,6 @@
             outline: none;
         }
 
-        /* Mensaje de "No data available" */
-        .no-data {
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: #acb4cc;
-        }
-
-        /* Toggle de barra deslizante */
-        .toggle-bar {
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-            background: #2e3349;
-            border-radius: 10px;
-            margin-top: 10px;
-            cursor: pointer;
-            padding: 10px;
-        }
-
-        .toggle-bar i {
-            font-size: 20px;
-            color: #acb4cc;
-            transition: transform 0.3s;
-        }
-
-        .hidden-content {
-            width: 100%;
-            max-width: 600px;
-            background: #242c3c;
-            border-radius: 10px;
-            padding: 15px;
-            display: none;
-            margin-top: 5px;
-            text-align: center;
-            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Estilos de la barra lateral */
         .sidebar {
             position: fixed;
             top: 0;
@@ -204,7 +174,7 @@
             align-items: center;
             padding: 10px;
             border-radius: 10px;
-            transition: background-color 0.3s, transform 0.3s ease;
+            transition: background-color 0.3s;
         }
 
         .sidebar ul li a:hover {
@@ -233,7 +203,6 @@
         </div>
         <div class="profile">
             <img src="https://i.ibb.co/rMx6Gwc/file.jpg" alt="Perfil" />
-            <div class="active-indicator"></div>
         </div>
     </div>
 
@@ -246,24 +215,22 @@
     </div>
 
     <div class="commands-container">
-        <h2>Comandos de Genesis</h2>
-        <div class="dropdown">
-            <select id="categorySelect">
-                <option value="">Selecciona una categoría</option>
-                <option value="anime">Anime</option>
-                <option value="musica">Música</option>
-                <option value="juegos">Juegos</option>
-                <option value="otros">Otros</option>
-            </select>
+        <div class="toggle-bar" id="toggleBar">
+            <h2>Comandos de Genesis</h2>
+            <i class="fas fa-chevron-down"></i>
         </div>
-    </div>
 
-    <div class="toggle-bar" id="toggleBar">
-        <i class="fas fa-chevron-down"></i>
-    </div>
-
-    <div class="hidden-content" id="hiddenContent">
-        <p>Contenido oculto que se despliega con la flecha.</p>
+        <div class="hidden-content" id="hiddenContent">
+            <div class="dropdown">
+                <select id="categorySelect">
+                    <option value="">Selecciona una categoría</option>
+                    <option value="anime">Anime</option>
+                    <option value="musica">Música</option>
+                    <option value="juegos">Juegos</option>
+                    <option value="otros">Otros</option>
+                </select>
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -276,6 +243,18 @@
             const icon = this.querySelector("i");
             content.style.display = content.style.display === "block" ? "none" : "block";
             icon.style.transform = content.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
+        });
+
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('closeSidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('open');
         });
     </script>
 </body>
