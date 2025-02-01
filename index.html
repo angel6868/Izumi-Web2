@@ -189,35 +189,6 @@
             background: #645ccc;
         }
 
-        .category-container {
-            display: none;
-            margin-top: 10px;
-        }
-
-        .card {
-            background: #3a3f5c;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .card i {
-            font-size: 20px;
-        }
-
-        .card-detail {
-            display: none;
-            background: #242c3c;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 5px;
-            color: #fff;
-        }
-
         footer {
             text-align: center;
             font-size: 0.8rem;
@@ -264,75 +235,13 @@
                 <i class="fas fa-chevron-down"></i>
             </div>
             <div class="dropdown-content" id="dropdownContent">
-                <button onclick="showCategory('anime')">Anime</button>
-                <button onclick="showCategory('music')">Música</button>
-                <button onclick="showCategory('games')">Juegos</button>
-                <button onclick="showCategory('others')">Otros</button>
+                <button onclick="selectCategory('Anime')">Anime</button>
+                <button onclick="selectCategory('Música')">Música</button>
+                <button onclick="selectCategory('Juegos')">Juegos</button>
+                <button onclick="selectCategory('Otros')">Otros</button>
             </div>
         </div>
-    </div>
-
-    <div class="category-container" id="anime">
-        <div class="card" onclick="toggleDetails('animeListDetail')">
-            <span><i class="fas fa-film"></i> Anime List</span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div id="animeListDetail" class="card-detail">
-            <p><strong>Nombre:</strong> Anime List</p>
-            <p><strong>Requerido:</strong> Nombre del anime</p>
-            <p><strong>Uso:</strong> Muestra una lista de animes populares y sus detalles.</p>
-        </div>
-
-        <div class="card" onclick="toggleDetails('animeQuotesDetail')">
-            <span><i class="fas fa-quote-left"></i> Anime Quotes</span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div id="animeQuotesDetail" class="card-detail">
-            <p><strong>Nombre:</strong> Anime Quotes</p>
-            <p><strong>Uso:</strong> Muestra frases icónicas de personajes de anime.</p>
-        </div>
-    </div>
-
-    <div class="category-container" id="music">
-        <div class="card" onclick="toggleDetails('appleMusicDetail')">
-            <span><i class="fas fa-music"></i> Apple Music</span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div id="appleMusicDetail" class="card-detail">
-            <p><strong>Nombre:</strong> Apple Music</p>
-            <p><strong>Requerido:</strong> Título de la canción</p>
-            <p><strong>Uso:</strong> Permite buscar y reproducir canciones desde Apple Music.</p>
-        </div>
-
-        <div class="card" onclick="toggleDetails('spotifyDetail')">
-            <span><i class="fab fa-spotify"></i> Spotify</span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div id="spotifyDetail" class="card-detail">
-            <p><strong>Nombre:</strong> Spotify</p>
-            <p><strong>Requerido:</strong> Título o enlace de la canción</p>
-            <p><strong>Uso:</strong> Reproduce canciones directamente desde Spotify.</p>
-        </div>
-    </div>
-
-    <div class="category-container" id="games">
-        <div class="card" onclick="toggleDetails('game1Detail')">
-            <span><i class="fas fa-gamepad"></i> Juego 1</span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div id="game1Detail" class="card-detail">
-            <p><strong>Nombre:</strong> Juego 1</p>
-            <p><strong>Uso:</strong> Descripción del juego 1.</p>
-        </div>
-
-        <div class="card" onclick="toggleDetails('game2Detail')">
-            <span><i class="fas fa-gamepad"></i> Juego 2</span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div id="game2Detail" class="card-detail">
-            <p><strong>Nombre:</strong> Juego 2</p>
-            <p><strong>Uso:</strong> Descripción del juego 2.</p>
-        </div>
+        <div id="categoryContent"></div>
     </div>
 
     <footer>
@@ -355,15 +264,42 @@
             icon.style.transform = content.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
         });
 
-        function showCategory(category) {
-            document.querySelectorAll('.category-container').forEach(el => el.style.display = 'none');
-            document.getElementById(category).style.display = 'block';
-            document.getElementById('toggleDropdown').innerHTML = category.charAt(0).toUpperCase() + category.slice(1) + ' <i class="fas fa-chevron-down"></i>';
-        }
+        function selectCategory(category) {
+            const categoryContent = document.getElementById('categoryContent');
+            const dropdown = document.getElementById('dropdownContent');
+            const toggleBar = document.getElementById('toggleDropdown');
+            const icon = toggleBar.querySelector("i");
 
-        function toggleDetails(detailId) {
-            const detail = document.getElementById(detailId);
-            detail.style.display = detail.style.display === "block" ? "none" : "block";
+            dropdown.style.display = "none";  // Hide dropdown
+            icon.style.transform = "rotate(0deg)";  // Reset icon rotation
+
+            toggleBar.innerHTML = category + ' <i class="fas fa-chevron-down"></i>';  // Update the toggle bar with selected category
+
+            let contentHTML = '';
+
+            if (category === 'Anime') {
+                contentHTML = `
+                    <div class="category-card">Anime 1</div>
+                    <div class="category-card">Anime 2</div>
+                `;
+            } else if (category === 'Música') {
+                contentHTML = `
+                    <div class="category-card">Música 1</div>
+                    <div class="category-card">Música 2</div>
+                `;
+            } else if (category === 'Juegos') {
+                contentHTML = `
+                    <div class="category-card">Juego 1</div>
+                    <div class="category-card">Juego 2</div>
+                `;
+            } else if (category === 'Otros') {
+                contentHTML = `
+                    <div class="category-card">Opción 1</div>
+                    <div class="category-card">Opción 2</div>
+                `;
+            }
+
+            categoryContent.innerHTML = contentHTML;
         }
     </script>
 
