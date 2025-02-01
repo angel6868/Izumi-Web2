@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +24,7 @@
             padding: 20px;
         }
 
+        /* Barra superior */
         .header {
             display: flex;
             justify-content: space-between;
@@ -40,7 +42,8 @@
             align-items: center;
         }
 
-        .menu-icon, .dark-mode-icon {
+        .menu-icon,
+        .dark-mode-icon {
             font-size: 24px;
             color: #acb4cc;
             cursor: pointer;
@@ -104,6 +107,14 @@
             outline: none;
         }
 
+        /* Mensaje de "No data available" */
+        .no-data {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #acb4cc;
+        }
+
+        /* Toggle de barra deslizante */
         .toggle-bar {
             width: 100%;
             max-width: 600px;
@@ -133,6 +144,73 @@
             box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
         }
 
+        /* Estilos de la barra lateral */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: #30344c;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: #30344c;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .sidebar-header h3 {
+            font-size: 18px;
+            color: #acb4cc;
+        }
+
+        .close-sidebar {
+            cursor: pointer;
+            font-size: 18px;
+            color: #acb4cc;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 20px;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            background: #645ccc;
+        }
+
         footer {
             text-align: center;
             font-size: 0.8rem;
@@ -143,10 +221,10 @@
             width: 100%;
             max-width: 600px;
             border-radius: 10px;
-            box-shadow: 0px -3px 10px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <div class="menu-container">
@@ -159,8 +237,16 @@
         </div>
     </div>
 
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="https://i.ibb.co/rMx6Gwc/file.jpg" alt="Perfil">
+            <h3>Izumi Plus</h3>
+            <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
+        </div>
+    </div>
+
     <div class="commands-container">
-        <h2>Comandos de Neko's Club</h2>
+        <h2>Comandos de Genesis</h2>
         <div class="dropdown">
             <select id="categorySelect">
                 <option value="">Selecciona una categoría</option>
@@ -172,41 +258,26 @@
         </div>
     </div>
 
-    <!-- Botón desplegable -->
     <div class="toggle-bar" id="toggleBar">
         <i class="fas fa-chevron-down"></i>
     </div>
 
-    <!-- Contenido oculto -->
     <div class="hidden-content" id="hiddenContent">
-        <p>Este es el contenido adicional que se muestra al presionar la flecha.</p>
+        <p>Contenido oculto que se despliega con la flecha.</p>
     </div>
 
     <footer>
-        © 2025 Made With ❤ By LightningNeko & Aiden_NotLogic
+        © 2025 Made With ❤ By Genesis & Izumi
     </footer>
 
     <script>
-        const toggleBar = document.getElementById('toggleBar');
-        const hiddenContent = document.getElementById('hiddenContent');
-        const icon = toggleBar.querySelector("i");
-
-        toggleBar.addEventListener('click', () => {
-            if (hiddenContent.style.display === "none" || hiddenContent.style.display === "") {
-                hiddenContent.style.display = "block";
-                icon.style.transform = "rotate(180deg)";
-            } else {
-                hiddenContent.style.display = "none";
-                icon.style.transform = "rotate(0deg)";
-            }
-        });
-
-        document.getElementById("categorySelect").addEventListener("change", function() {
-            let message = document.getElementById("noDataMessage");
-            if (message) {
-                message.style.display = this.value ? "none" : "block";
-            }
+        document.getElementById('toggleBar').addEventListener('click', function () {
+            const content = document.getElementById('hiddenContent');
+            const icon = this.querySelector("i");
+            content.style.display = content.style.display === "block" ? "none" : "block";
+            icon.style.transform = content.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
         });
     </script>
 </body>
+
 </html>
