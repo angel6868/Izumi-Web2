@@ -78,6 +78,7 @@
 
         .dropdown {
             width: 100%;
+            position: relative;
             text-align: center;
         }
 
@@ -93,12 +94,18 @@
             font-size: 1rem;
         }
 
+        .toggle-bar i {
+            transition: transform 0.3s;
+        }
+
         .dropdown-content {
             display: none;
+            width: 100%;
             background-color: #242c3c;
             padding: 10px;
             border-radius: 8px;
             margin-top: 5px;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
         }
 
         .dropdown-content button {
@@ -115,6 +122,71 @@
 
         .dropdown-content button:hover {
             background-color: #645ccc;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: #30344c;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: #30344c;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .sidebar-header h3 {
+            font-size: 18px;
+            color: #acb4cc;
+        }
+
+        .close-sidebar {
+            cursor: pointer;
+            font-size: 18px;
+            color: #acb4cc;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 20px;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background: #645ccc;
         }
 
         .category-container {
@@ -192,11 +264,32 @@
                 <i class="fas fa-chevron-down"></i>
             </div>
             <div class="dropdown-content" id="dropdownContent">
-                <button onclick="showCategory('music')">Música</button>
                 <button onclick="showCategory('anime')">Anime</button>
+                <button onclick="showCategory('music')">Música</button>
                 <button onclick="showCategory('games')">Juegos</button>
                 <button onclick="showCategory('others')">Otros</button>
             </div>
+        </div>
+    </div>
+
+    <div class="category-container" id="anime">
+        <div class="card" onclick="toggleDetails('animeListDetail')">
+            <span><i class="fas fa-film"></i> Anime List</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="animeListDetail" class="card-detail">
+            <p><strong>Nombre:</strong> Anime List</p>
+            <p><strong>Requerido:</strong> Nombre del anime</p>
+            <p><strong>Uso:</strong> Muestra una lista de animes populares y sus detalles.</p>
+        </div>
+
+        <div class="card" onclick="toggleDetails('animeQuotesDetail')">
+            <span><i class="fas fa-quote-left"></i> Anime Quotes</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="animeQuotesDetail" class="card-detail">
+            <p><strong>Nombre:</strong> Anime Quotes</p>
+            <p><strong>Uso:</strong> Muestra frases icónicas de personajes de anime.</p>
         </div>
     </div>
 
@@ -222,24 +315,23 @@
         </div>
     </div>
 
-    <div class="category-container" id="anime">
-        <div class="card" onclick="toggleDetails('animeListDetail')">
-            <span><i class="fas fa-film"></i> Anime List</span>
+    <div class="category-container" id="games">
+        <div class="card" onclick="toggleDetails('game1Detail')">
+            <span><i class="fas fa-gamepad"></i> Juego 1</span>
             <i class="fas fa-chevron-right"></i>
         </div>
-        <div id="animeListDetail" class="card-detail">
-            <p><strong>Nombre:</strong> Anime List</p>
-            <p><strong>Requerido:</strong> Nombre del anime</p>
-            <p><strong>Uso:</strong> Muestra una lista de animes populares y sus detalles.</p>
+        <div id="game1Detail" class="card-detail">
+            <p><strong>Nombre:</strong> Juego 1</p>
+            <p><strong>Uso:</strong> Descripción del juego 1.</p>
         </div>
 
-        <div class="card" onclick="toggleDetails('animeQuotesDetail')">
-            <span><i class="fas fa-quote-left"></i> Anime Quotes</span>
+        <div class="card" onclick="toggleDetails('game2Detail')">
+            <span><i class="fas fa-gamepad"></i> Juego 2</span>
             <i class="fas fa-chevron-right"></i>
         </div>
-        <div id="animeQuotesDetail" class="card-detail">
-            <p><strong>Nombre:</strong> Anime Quotes</p>
-            <p><strong>Uso:</strong> Muestra frases icónicas de personajes de anime.</p>
+        <div id="game2Detail" class="card-detail">
+            <p><strong>Nombre:</strong> Juego 2</p>
+            <p><strong>Uso:</strong> Descripción del juego 2.</p>
         </div>
     </div>
 
@@ -258,7 +350,9 @@
 
         document.getElementById('toggleDropdown').addEventListener('click', function () {
             const content = document.getElementById('dropdownContent');
+            const icon = this.querySelector("i");
             content.style.display = content.style.display === "block" ? "none" : "block";
+            icon.style.transform = content.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
         });
 
         function showCategory(category) {
