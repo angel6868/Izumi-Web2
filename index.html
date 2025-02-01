@@ -356,25 +356,16 @@
         });
 
         function showCategory(category) {
-            const allCategories = document.querySelectorAll('.category-container');
-            const currentCategory = document.getElementById(category);
-
-            // Verifica si la categoría ya está visible
-            if (currentCategory.style.display === 'block') {
-                currentCategory.style.display = 'none';
-            } else {
-                // Oculta todas las categorías
-                allCategories.forEach(el => el.style.display = 'none');
-                
-                // Muestra la categoría seleccionada
-                currentCategory.style.display = 'block';
-            }
+            document.querySelectorAll('.category-container').forEach(el => el.style.display = 'none');
+            document.getElementById(category).style.display = 'block';
+            document.getElementById('toggleDropdown').innerHTML = category.charAt(0).toUpperCase() + category.slice(1) + ' <i class="fas fa-chevron-down"></i>';
         }
 
         function toggleDetails(detailId) {
-            const detailElement = document.getElementById(detailId);
-            detailElement.style.display = detailElement.style.display === 'block' ? 'none' : 'block';
+            const detail = document.getElementById(detailId);
+            detail.style.display = detail.style.display === "block" ? "none" : "block";
         }
     </script>
+
 </body>
 </html>
