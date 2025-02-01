@@ -359,18 +359,14 @@
         const allCategories = document.querySelectorAll('.category-container');
         const currentCategory = document.getElementById(category);
 
-        // Verifica si la categoría ya está visible
         if (currentCategory.style.display === 'block') {
             currentCategory.style.display = 'none';
         } else {
-            // Oculta todas las categorías
             allCategories.forEach(el => el.style.display = 'none');
             
-            // Muestra la categoría seleccionada
             currentCategory.style.display = 'block';
         }
 
-        // Cambia el texto del botón de la categoría
         document.getElementById('toggleDropdown').innerHTML = category.charAt(0).toUpperCase() + category.slice(1) + ' <i class="fas fa-chevron-down"></i>';
     }
 
