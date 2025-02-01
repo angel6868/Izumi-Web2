@@ -339,42 +339,42 @@
         © 2025 Made With ❤ By Genesis & Izumi
     </footer>
 
-<script>
-    document.getElementById('menuToggle').addEventListener('click', function () {
-        document.getElementById('sidebar').classList.toggle('open');
-    });
+    <script>
+        document.getElementById('menuToggle').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
 
-    document.getElementById('closeSidebar').addEventListener('click', function () {
-        document.getElementById('sidebar').classList.remove('open');
-    });
+        document.getElementById('closeSidebar').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.remove('open');
+        });
 
-    document.getElementById('toggleDropdown').addEventListener('click', function () {
-        const content = document.getElementById('dropdownContent');
-        const icon = this.querySelector("i");
-        content.style.display = content.style.display === "block" ? "none" : "block";
-        icon.style.transform = content.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
-    });
+        document.getElementById('toggleDropdown').addEventListener('click', function () {
+            const content = document.getElementById('dropdownContent');
+            const icon = this.querySelector("i");
+            content.style.display = content.style.display === "block" ? "none" : "block";
+            icon.style.transform = content.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
+        });
 
-    function showCategory(category) {
-        const allCategories = document.querySelectorAll('.category-container');
-        const currentCategory = document.getElementById(category);
+        function showCategory(category) {
+            const allCategories = document.querySelectorAll('.category-container');
+            const currentCategory = document.getElementById(category);
 
-        if (currentCategory.style.display === 'block') {
-            currentCategory.style.display = 'none';
-        } else {
-            allCategories.forEach(el => el.style.display = 'none');
-            
-            currentCategory.style.display = 'block';
+            // Verifica si la categoría ya está visible
+            if (currentCategory.style.display === 'block') {
+                currentCategory.style.display = 'none';
+            } else {
+                // Oculta todas las categorías
+                allCategories.forEach(el => el.style.display = 'none');
+                
+                // Muestra la categoría seleccionada
+                currentCategory.style.display = 'block';
+            }
         }
 
-        document.getElementById('toggleDropdown').innerHTML = category.charAt(0).toUpperCase() + category.slice(1) + ' <i class="fas fa-chevron-down"></i>';
-    }
-
-    function toggleDetails(detailId) {
-        const detail = document.getElementById(detailId);
-        detail.style.display = detail.style.display === "block" ? "none" : "block";
-    }
-</script>
-
+        function toggleDetails(detailId) {
+            const detailElement = document.getElementById(detailId);
+            detailElement.style.display = detailElement.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
 </body>
 </html>
