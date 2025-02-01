@@ -218,6 +218,16 @@
             color: #fff;
         }
 
+        /* Estilo del cuadro adicional */
+        .additional-info {
+            background-color: #3a3f5c;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            color: #acb4cc;
+            text-align: center;
+        }
+
         footer {
             text-align: center;
             font-size: 0.8rem;
@@ -281,6 +291,10 @@
             <p><strong>Nombre:</strong> Anime List</p>
             <p><strong>Requerido:</strong> Nombre del anime</p>
             <p><strong>Uso:</strong> Muestra una lista de animes populares y sus detalles.</p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>Anime List - <strong>nombre del anime</strong></p>
+            </div>
         </div>
 
         <div class="card" onclick="toggleDetails('animeQuotesDetail')">
@@ -290,6 +304,10 @@
         <div id="animeQuotesDetail" class="card-detail">
             <p><strong>Nombre:</strong> Anime Quotes</p>
             <p><strong>Uso:</strong> Muestra frases icónicas de personajes de anime.</p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>Anime Quotes - <strong>frase del anime</strong></p>
+            </div>
         </div>
     </div>
 
@@ -302,6 +320,10 @@
             <p><strong>Nombre:</strong> Apple Music</p>
             <p><strong>Requerido:</strong> Título de la canción</p>
             <p><strong>Uso:</strong> Permite buscar y reproducir canciones desde Apple Music.</p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>Apple Music - <strong>titulo de la canción</strong></p>
+            </div>
         </div>
 
         <div class="card" onclick="toggleDetails('spotifyDetail')">
@@ -312,26 +334,10 @@
             <p><strong>Nombre:</strong> Spotify</p>
             <p><strong>Requerido:</strong> Título o enlace de la canción</p>
             <p><strong>Uso:</strong> Reproduce canciones directamente desde Spotify.</p>
-        </div>
-    </div>
-
-    <div class="category-container" id="games">
-        <div class="card" onclick="toggleDetails('game1Detail')">
-            <span><i class="fas fa-gamepad"></i> Juego 1</span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div id="game1Detail" class="card-detail">
-            <p><strong>Nombre:</strong> Juego 1</p>
-            <p><strong>Uso:</strong> Descripción del juego 1.</p>
-        </div>
-
-        <div class="card" onclick="toggleDetails('game2Detail')">
-            <span><i class="fas fa-gamepad"></i> Juego 2</span>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div id="game2Detail" class="card-detail">
-            <p><strong>Nombre:</strong> Juego 2</p>
-            <p><strong>Uso:</strong> Descripción del juego 2.</p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>Spotify - <strong>titulo de la canción</strong></p>
+            </div>
         </div>
     </div>
 
