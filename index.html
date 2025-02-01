@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,7 +49,6 @@
         }
 
         .profile {
-            position: relative;
             display: flex;
             align-items: center;
         }
@@ -66,53 +64,64 @@
             max-width: 600px;
             background: #2e3349;
             border-radius: 10px;
+            padding: 20px;
             margin-top: 20px;
+            text-align: center;
             box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .toggle-bar {
-            width: 100%;
-            text-align: center;
-            background: #2e3349;
-            border-radius: 10px;
-            cursor: pointer;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .toggle-bar h2 {
+        .commands-container h2 {
             font-size: 1.3rem;
+            margin-bottom: 15px;
             color: white;
         }
 
-        .toggle-bar i {
-            font-size: 20px;
+        .dropdown {
+            width: 100%;
+            position: relative;
+            text-align: center;
+        }
+
+        .toggle-bar {
+            background-color: #3a3f5c;
             color: #acb4cc;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
+        }
+
+        .toggle-bar i {
             transition: transform 0.3s;
         }
 
-        .hidden-content {
-            width: 100%;
-            background: #242c3c;
-            border-radius: 10px;
-            padding: 15px;
+        .dropdown-content {
             display: none;
-            text-align: center;
+            width: 100%;
+            background-color: #242c3c;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 5px;
             box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .dropdown select {
+        .dropdown-content button {
             width: 100%;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 10px;
             border: none;
             background-color: #3a3f5c;
             color: #acb4cc;
             font-size: 1rem;
             cursor: pointer;
-            outline: none;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .dropdown-content button:hover {
+            background-color: #645ccc;
         }
 
         .sidebar {
@@ -134,7 +143,6 @@
         .sidebar-header {
             padding: 20px;
             background: #30344c;
-            height: 75px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -194,12 +202,11 @@
         }
     </style>
 </head>
-
 <body>
+
     <div class="header">
         <div class="menu-container">
             <i class="fas fa-bars menu-icon" id="menuToggle"></i>
-            <i class="fas fa-laptop dark-mode-icon" id="toggleDarkMode"></i>
         </div>
         <div class="profile">
             <img src="https://i.ibb.co/rMx6Gwc/file.jpg" alt="Perfil" />
@@ -212,23 +219,26 @@
             <h3>Izumi Plus</h3>
             <i class="fas fa-times close-sidebar" id="closeSidebar"></i>
         </div>
+        <ul>
+            <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="#"><i class="fas fa-book"></i> Comandos</a></li>
+            <li><a href="#"><i class="fas fa-user"></i> Perfil</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+        </ul>
     </div>
 
     <div class="commands-container">
-        <div class="toggle-bar" id="toggleBar">
-            <h2>Comandos de Genesis</h2>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-
-        <div class="hidden-content" id="hiddenContent">
-            <div class="dropdown">
-                <select id="categorySelect">
-                    <option value="">Selecciona una categoría</option>
-                    <option value="anime">Anime</option>
-                    <option value="musica">Música</option>
-                    <option value="juegos">Juegos</option>
-                    <option value="otros">Otros</option>
-                </select>
+        <h2>Comandos de Genesis</h2>
+        <div class="dropdown">
+            <div class="toggle-bar" id="toggleDropdown">
+                Selecciona una categoría
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="dropdown-content" id="dropdownContent">
+                <button>Anime</button>
+                <button>Música</button>
+                <button>Juegos</button>
+                <button>Otros</button>
             </div>
         </div>
     </div>
@@ -238,25 +248,21 @@
     </footer>
 
     <script>
-        document.getElementById('toggleBar').addEventListener('click', function () {
-            const content = document.getElementById('hiddenContent');
+        document.getElementById('menuToggle').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        document.getElementById('closeSidebar').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.remove('open');
+        });
+
+        document.getElementById('toggleDropdown').addEventListener('click', function () {
+            const content = document.getElementById('dropdownContent');
             const icon = this.querySelector("i");
             content.style.display = content.style.display === "block" ? "none" : "block";
             icon.style.transform = content.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
         });
-
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.getElementById('sidebar');
-        const closeSidebar = document.getElementById('closeSidebar');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-        });
-
-        closeSidebar.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-        });
     </script>
-</body>
 
+</body>
 </html>
