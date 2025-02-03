@@ -275,7 +275,7 @@
             </div>
             <div class="dropdown-content" id="dropdownContent">
                 <button onclick="showCategory('anime')">Anime</button>
-                <button onclick="showCategory('music')">Música</button>
+                <button onclick="showCategory('descargas')">Descargas</button>
                 <button onclick="showCategory('games')">Juegos</button>
                 <button onclick="showCategory('others')">Otros</button>
             </div>
@@ -311,32 +311,59 @@
         </div>
     </div>
 
-    <div class="category-container" id="music">
+    <div class="category-container" id="descargas">
         <div class="card" onclick="toggleDetails('appleMusicDetail')">
-            <span><i class="fas fa-music"></i> Apple Music</span>
+            <span><i class="fas fa-download"></i> Apple Music</span>
             <i class="fas fa-chevron-right"></i>
         </div>
         <div id="appleMusicDetail" class="card-detail">
             <p><strong>Nombre:</strong> Apple Music</p>
             <p><strong>Requerido:</strong> Título de la canción</p>
-            <p><strong>Uso:</strong> Permite buscar y reproducir canciones desde Apple Music.</p>
+            <p><strong>Uso:</strong> Permite descargar canciones desde Apple Music.</p>
             <!-- Cuadro adicional -->
             <div class="additional-info">
-                <p>Apple Music - <strong>titulo de la canción</strong></p>
+                <p>#applemusic <strong>enlace</strong></p>
             </div>
         </div>
 
         <div class="card" onclick="toggleDetails('spotifyDetail')">
-            <span><i class="fab fa-spotify"></i> Spotify</span>
+            <span><i class="fas fa-download"></i> Spotify</span>
             <i class="fas fa-chevron-right"></i>
         </div>
         <div id="spotifyDetail" class="card-detail">
             <p><strong>Nombre:</strong> Spotify</p>
-            <p><strong>Requerido:</strong> Título o enlace de la canción</p>
+            <p><strong>Requerido:</strong> enlace de la canción</p>
             <p><strong>Uso:</strong> Reproduce canciones directamente desde Spotify.</p>
             <!-- Cuadro adicional -->
             <div class="additional-info">
-                <p>Spotify - <strong>titulo de la canción</strong></p>
+                <p>#spotify <strong>enlace</strong></p>
+            </div>
+        </div>
+        <div class="card" onclick="toggleDetails('capCutDetail')">
+            <span><i class="fas fa-download"></i> Cap Cut</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="capCutDetail" class="card-detail">
+            <p><strong>Nombre:</strong> Cap Cut</p>
+            <p><strong>Requerido:</strong> Enlace de video</p>
+            <p><strong>Uso:</strong> Permite descargar videos desde Cap Cut.</p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#capcut <strong>enlace</strong></p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleDetails('facebookDetail')">
+            <span><i class="fas fa-download"></i> Facebook</span>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div id="facebookDetail" class="card-detail">
+            <p><strong>Nombre:</strong> Facebook</p>
+            <p><strong>Requerido:</strong> enlace del video</p>
+            <p><strong>Uso:</strong> descarga videos directamente desde Facebook.</p>
+            <!-- Cuadro adicional -->
+            <div class="additional-info">
+                <p>#facebook <strong>enlace</strong></p>
             </div>
         </div>
     </div>
