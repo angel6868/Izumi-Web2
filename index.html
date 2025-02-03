@@ -557,4 +557,14 @@
             document.querySelectorAll('.category-container').forEach(el => el.style.display = 'none');
             document.getElementById(category).style.display = 'block';
             document.getElementById('dropdownContent').style.display = 'none';
-            document.getElementById('toggleDropd
+            document.getElementById('toggleDropdown').innerHTML = category.charAt(0).toUpperCase() + category.slice(1) + ' <i class="fas fa-chevron-down"></i>';
+        }
+
+        function toggleDetails(detailId) {
+            const detail = document.getElementById(detailId);
+            detail.style.display = detail.style.display === "block" ? "none" : "block";
+        }
+    </script>
+
+</body>
+</html>
