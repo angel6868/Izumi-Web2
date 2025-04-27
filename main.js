@@ -90,6 +90,36 @@ document.querySelectorAll('[data-theme]').forEach(button => {
     // Cambiar gradientes
     gradientSections.forEach(section => {
       section.style.backgroundImage = `linear-gradient(to bottom, ${color}, black)`;
+    }
+  }
+
+<-- Script para cambiar el gradiente -->
+  document.addEventListener("DOMContentLoaded", function() {
+    const themeButtons = document.querySelectorAll('[data-theme]');
+    const body = document.body;
+
+    themeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const theme = this.getAttribute('data-theme');
+        
+        // Aplica el gradiente de acuerdo al tema
+        switch(theme) {
+          case 'violet':
+            body.style.background = 'linear-gradient(to top, #6b46c1, #9f7aea)';
+            break;
+          case 'sky':
+            body.style.background = 'linear-gradient(to top, #0ea5e9, #38bdf8)';
+            break;
+          case 'emerald':
+            body.style.background = 'linear-gradient(to top, #10b981, #34d399)';
+            break;
+          case 'rose':
+            body.style.background = 'linear-gradient(to top, #f43f5e, #f87171)';
+            break;
+          case 'amber':
+            body.style.background = 'linear-gradient(to top, #f59e0b, #fbbf24)';
+            break;
+        }
+      });
     });
   });
-});
