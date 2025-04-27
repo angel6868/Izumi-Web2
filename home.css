@@ -1,0 +1,35 @@
+/* home.css */
+
+/* Tipografía global */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Variables de color */
+:root {
+  --accent: #0ea5e9;
+  --accent-hover: #0284c7;
+  --accent-start: #5fcafa;
+  --accent-end: #38bdf8;
+}
+
+/* Clases utilitarias */
+.bg-accent {
+  background-color: var(--accent) !important;
+}
+.hover\:bg-accent-hover:hover {
+  background-color: var(--accent-hover) !important;
+}
+.text-accent {
+  color: var(--accent) !important;
+}
+.hover\:text-accent-hover:hover {
+  color: var(--accent-hover) !important;
+}
+.bg-accent-gradient {
+  background-image: linear-gradient(
+    to right,
+    var(--accent-start),
+    var(--accent-end)
+  ) !important;
+}
