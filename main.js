@@ -93,7 +93,7 @@ document.querySelectorAll('[data-theme]').forEach(button => {
     }
   }
 
-<-- Script para cambiar el gradiente -->
+// Script para cambiar el gradiente
   document.addEventListener("DOMContentLoaded", function() {
     const themeButtons = document.querySelectorAll('[data-theme]');
     const body = document.body;
