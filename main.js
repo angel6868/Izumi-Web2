@@ -68,4 +68,28 @@ document.addEventListener('DOMContentLoaded', () => {
       root.style.setProperty('--accent-end', '#f59e0b');
     }
   }
+
+const colorThemes = {
+  violet: '#8b5cf6',   // morado
+  sky: '#0ea5e9',      // azul
+  emerald: '#10b981',  // verde
+  rose: '#f43f5e',     // rojo
+  amber: '#f59e0b'     // amarillo
+};
+
+const gradientSections = document.querySelectorAll('.bg-gradient-to-b');
+
+document.querySelectorAll('[data-theme]').forEach(button => {
+  button.addEventListener('click', () => {
+    const theme = button.getAttribute('data-theme');
+    const color = colorThemes[theme];
+
+    // Cambiar color principal
+    document.documentElement.style.setProperty('--accent', color);
+
+    // Cambiar gradientes
+    gradientSections.forEach(section => {
+      section.style.backgroundImage = `linear-gradient(to bottom, ${color}, black)`;
+    });
+  });
 });
