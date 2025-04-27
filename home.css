@@ -7,7 +7,7 @@ body {
 
 /* Variables de color */
 :root {
-  --accent: #0ea5e9;
+  --accent: #8b5cf6; /* color morado por defecto */
   --accent-hover: #0284c7;
   --accent-start: #5fcafa;
   --accent-end: #38bdf8;
@@ -32,4 +32,7 @@ body {
     var(--accent-start),
     var(--accent-end)
   ) !important;
+}
+.shadow-accent\/30 {
+  box-shadow: 0 4px 6px -1px var(--accent), 0 2px 4px -2px var(--accent);
 }
