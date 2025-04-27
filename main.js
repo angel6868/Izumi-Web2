@@ -1,0 +1,71 @@
+// js/main.js
+
+document.addEventListener('DOMContentLoaded', () => {
+  // OFF-CANVAS
+  const menuToggle = document.getElementById('menu-toggle');
+  const overlay    = document.getElementById('mobile-menu');
+  const asideMenu  = document.getElementById('mobile-aside');
+  const menuClose  = document.getElementById('menu-close');
+
+  menuToggle.addEventListener('click', () => {
+    overlay.classList.remove('hidden');
+    requestAnimationFrame(() => asideMenu.classList.remove('translate-x-full'));
+  });
+
+  function cerrarMenu() {
+    asideMenu.classList.add('translate-x-full');
+    asideMenu.addEventListener('transitionend', () => {
+      overlay.classList.add('hidden');
+    }, { once: true });
+  }
+
+  menuClose.addEventListener('click', cerrarMenu);
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) cerrarMenu();
+  });
+
+  // PALETA DE COLORES
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeMenu   = document.getElementById('theme-menu');
+  const themeBtns   = themeMenu.querySelectorAll('button[data-theme]');
+
+  themeToggle.addEventListener('click', () => {
+    themeMenu.classList.toggle('hidden');
+  });
+  themeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      setTheme(btn.dataset.theme);
+      themeMenu.classList.add('hidden');
+    });
+  });
+
+  function setTheme(theme) {
+    const root = document.documentElement;
+    if (theme === 'violet') {
+      root.style.setProperty('--accent', '#7c3aed');
+      root.style.setProperty('--accent-hover', '#6d28d9');
+      root.style.setProperty('--accent-start', '#a78bfa');
+      root.style.setProperty('--accent-end', '#8b5cf6');
+    } else if (theme === 'sky') {
+      root.style.setProperty('--accent', '#0284c7');
+      root.style.setProperty('--accent-hover', '#0369a1');
+      root.style.setProperty('--accent-start', '#38bdf8');
+      root.style.setProperty('--accent-end', '#0ea5e9');
+    } else if (theme === 'emerald') {
+      root.style.setProperty('--accent', '#059669');
+      root.style.setProperty('--accent-hover', '#047857');
+      root.style.setProperty('--accent-start', '#34d399');
+      root.style.setProperty('--accent-end', '#10b981');
+    } else if (theme === 'rose') {
+      root.style.setProperty('--accent', '#e11d48');
+      root.style.setProperty('--accent-hover', '#be123c');
+      root.style.setProperty('--accent-start', '#fb7185');
+      root.style.setProperty('--accent-end', '#f43f5e');
+    } else if (theme === 'amber') {
+      root.style.setProperty('--accent', '#d97706');
+      root.style.setProperty('--accent-hover', '#b45309');
+      root.style.setProperty('--accent-start', '#fbbf24');
+      root.style.setProperty('--accent-end', '#f59e0b');
+    }
+  }
+});
