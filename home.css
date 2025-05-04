@@ -134,42 +134,44 @@ h2 {
 }
 
 .track-card {
-    display: flex;
-    align-items: center;
-    background-color: #1e1e1e;
-    border-radius: 12px;
-    padding: 10px;
-    margin-bottom: 10px;
-    color: white;
+  display: flex;
+  align-items: center;
+  background-color: #1e1e1e;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 15px;
 }
 
 .track-image {
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
-    object-fit: cover;
-    margin-right: 15px;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 15px;
 }
 
 .track-info {
-    flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .track-title {
-    font-weight: bold;
-    font-size: 16px;
-    margin: 0;
+  font-weight: bold;
+  color: white;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .track-artist {
-    font-size: 14px;
-    color: #b3b3b3;
-    margin: 0;
-}
-
-.track-duration {
-    font-size: 14px;
-    color: #b3b3b3;
+  font-size: 14px;
+  color: #bbb;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .trackImage {
