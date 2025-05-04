@@ -68,8 +68,8 @@ h2 {
 }
 
 #resultsContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 15px;
 }
 
