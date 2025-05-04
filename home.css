@@ -144,9 +144,9 @@ h2 {
 }
 
 .track-image {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
     object-fit: cover;
     margin-right: 15px;
 }
@@ -173,9 +173,10 @@ h2 {
 }
 
 .trackImage {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    object-fit: cover;
     margin-right: 15px;
 }
 
