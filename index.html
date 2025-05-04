@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>trackflow</title>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="home.css">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>trackflow</h1>
+        </header>
+
+        <div class="buscador">
+            <p>Encuentra tu canción favorita en Spotify</p>
+            <div class="searchBar">
+                <input type="text" id="searchInput" placeholder="Busca tu canción..." />
+                <button onclick="searchSpotify()">Buscar</button>
+            </div>
+
+           <h2>Resultados de la búsqueda</h2>
+
+           <div id="resultsContainer"></div>
+        </div>
+
+        <div class="reproductor" style="display:none;">
+            <div class="iformation">
+                <img id="trackImage" src="" alt="Imagen de la canción" class="trackImage">
+                <h2 id="trackTitle">Título de la Canción</h2>
+                <p id="trackArtist">Artista</p>
+
+                <div id="prevButton" class="prevButton">
+                    <i class="fas fa-step-backward"></i>
+                </div>
+
+                <div id="playButton" class="playButton">
+                    <i id="playIcon" class="fas fa-play"></i>
+                    <i id="pauseIcon" class="fas fa-pause" style="display: none;"></i>
+                </div>
+
+                <div id="nextButton" class="nextButton">
+                    <i class="fas fa-step-forward"></i>
+                </div>
+
+                <audio id="audio"></audio>
+            </div>
+        </div>
+
+        <script>
+            const CLIENT_ID = "d10d35271388467d919e39a724011539";
+            const CLIENT_SECRET = "2e820b4700ac44fea798d6f363bae69a";
+            let token = "";
+            let offset = 0;
+            let queryGlobal = "";
+            let cargando = false;
+            let trackList = [];
+            let updateInterval;
+
+            async function obtenerToken() {
+                const result = await fetch("https://accounts.spotify.com/api/token", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        Authorization: "Basic " + btoa(CLIENT_ID + ":" + CLIENT_SECRET),
+                    },
+                    body: "grant_type=client_credentials",
+                });
+                const data = await result.json();
+                token = data.access_token;
+            }
+
+            async function buscarCanciones(query = "", append = false) {
+                if (!token) await obtenerToken();
+                if (!query) query = document.getElementById("searchInput").value;
+                if (!query.trim()) return;
+
+                cargando = true;
+                queryGlobal = query;
+
+                const res = await fetch(
+                    `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=10&offset=${offset}`,
+                    {
+                        headers: {
+                            Authorization: "Bearer " + token,
+                        },
+                    }
+                );
+
+                const data = await res.json();
+                if (!append) document.getElementById("resultsContainer").innerHTML = "";
+
+                mostrarResultados(data.tracks.items, append);
+                offset += 10;
+                cargando = false;
+            }
+
+            function mostrarResultados(tracks, append = false) {
+                const contenedor = document.getElementById("resultsContainer");
+                if (!append) contenedor.innerHTML = "";
+
+                tracks.forEach((track) => {
+                    if (trackList.some(existingTrack => existingTrack.url === track.id)) return;
+
+                    const trackUrl = `https://open.spotify.com/track/${track.id}`;
+
+                    fetch(`https://dark-core-api.vercel.app/api/download/spotify?key=Darkito&url=${trackUrl}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success && data.downloadLink) {
+                                crearCancionUI(track, data.downloadLink, contenedor);
+                            } else {
+                                fallbackAPI(track, trackUrl, contenedor);
+                            }
+                        })
+                        .catch(() => {
+                            fallbackAPI(track, trackUrl, contenedor);
+                        });
+                });
+            }
+
+            function fallbackAPI(track, trackUrl, contenedor) {
+                fetch(`https://archive-ui.tanakadomp.biz.id/download/spotify?url=${trackUrl}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status && data.result?.data?.download) {
+                            crearCancionUI(track, data.result.data.download, contenedor);
+                        }
+                    })
+                    .catch(() => {
+                        console.warn("No se pudo obtener la canción.");
+                    });
+            }
+
+            function crearCancionUI(track, downloadLink, contenedor) {
+                const div = document.createElement("div");
+                div.className = "result-item";
+                div.innerHTML = `
+    <div class="track-card">
+        <img class="track-image" src="${track.album.images[0].url}" alt="${track.name}">
+        <div class="track-info">
+            <p class="track-title">${track.name}</p>
+            <p class="track-artist">${track.artists.map((a) => a.name).join(", ")}</p>
+        </div>
+        <div class="track-duration">${msToMinutesAndSeconds(track.duration_ms)}</div>
+    </div>
+`;
+                contenedor.appendChild(div);
+
+                trackList.push({
+                    url: downloadLink,
+                    imageUrl: track.album.images[0].url,
+                    name: track.name,
+                    artist: track.artists.map((a) => a.name).join(", ")
+                });
+            }
+
+            function reproducirCancion(url, imageUrl, name, artist) {
+                const audio = document.getElementById("audio");
+                const reproductor = document.querySelector(".reproductor");
+
+                document.getElementById("trackImage").src = imageUrl;
+                document.getElementById("trackTitle").innerText = name;
+                document.getElementById("trackArtist").innerText = artist;
+
+                reproductor.style.display = "flex";
+                audio.src = url;
+                audio.load();
+                audio.play().catch(err => {
+                    console.error("Error al reproducir:", err);
+                    nextTrack();
+                });
+
+                if (updateInterval) clearInterval(updateInterval);
+                updateInterval = setInterval(() => { }, 1000);
+
+                audio.onended = () => nextTrack();
+                audio.onerror = () => nextTrack();
+            }
+
+            function nextTrack() {
+                const current = document.getElementById("audio").src;
+                const currentIndex = trackList.findIndex(t => t.url === current);
+                if (currentIndex !== -1 && currentIndex + 1 < trackList.length) {
+                    const next = trackList[currentIndex + 1];
+                    reproducirCancion(next.url, next.imageUrl, next.name, next.artist);
+                }
+            }
+
+            function prevTrack() {
+                const current = document.getElementById("audio").src;
+                const currentIndex = trackList.findIndex(t => t.url === current);
+                if (currentIndex > 0) {
+                    const prev = trackList[currentIndex - 1];
+                    reproducirCancion(prev.url, prev.imageUrl, prev.name, prev.artist);
+                }
+            }
+
+            document.getElementById("nextButton").addEventListener("click", nextTrack);
+            document.getElementById("prevButton").addEventListener("click", prevTrack);
+
+            document.getElementById("playButton").addEventListener("click", () => {
+                const audio = document.getElementById("audio");
+                const playIcon = document.getElementById("playIcon");
+                const pauseIcon = document.getElementById("pauseIcon");
+
+                if (audio.paused) {
+                    audio.play();
+                    playIcon.style.display = "none";
+                    pauseIcon.style.display = "inline";
+                } else {
+                    audio.pause();
+                    playIcon.style.display = "inline";
+                    pauseIcon.style.display = "none";
+                }
+            });
+
+            document.getElementById("searchInput").addEventListener("keydown", e => {
+                if (e.key === "Enter") {
+                    offset = 0;
+                    buscarCanciones(e.target.value);
+                }
+            });
+
+            window.addEventListener("scroll", () => {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200 && !cargando) {
+                    buscarCanciones(queryGlobal, true);
+                }
+            });
+
+            function searchSpotify() {
+                offset = 0;
+                buscarCanciones();
+            }
+
+            window.onload = () => {
+                buscarCanciones("recomendado");
+            };
+        </script>
+    </div>
+</body>
+
+</html>
